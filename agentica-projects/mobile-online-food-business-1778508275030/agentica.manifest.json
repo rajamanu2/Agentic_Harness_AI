@@ -1,0 +1,57 @@
+{
+  "schema": "agentica.generated-project.v1",
+  "id": "mobile-online-food-business-1778508275030",
+  "title": "Mobile Online Food Business",
+  "appType": "restaurant",
+  "prompt": "build a mobile app for online food business",
+  "generatedAt": "2026-05-11T14:04:35.172Z",
+  "livePreview": "/live-projects/mobile-online-food-business-1778508275030/",
+  "brain": {
+    "engine": "Agentica Native Engine",
+    "harness": "DeerFlow-style research workspace",
+    "orchestration": [
+      "intent intake",
+      "dynamic app inference",
+      "local source generation",
+      "live preview serving",
+      "deployment manifest",
+      "learning memory"
+    ]
+  },
+  "stack": {
+    "frontend": "React 19 + Vite",
+    "icons": "lucide-react",
+    "preview": "standalone HTML served by Agentica",
+    "deployTarget": "static hosting, Apache, Nginx, Node, Vercel, Netlify, or cloud bucket"
+  },
+  "modules": [
+    "menu categories",
+    "order tray",
+    "table booking",
+    "specials",
+    "contact action",
+    "responsive shell",
+    "hero",
+    "search/filter",
+    "data cards",
+    "detail panel"
+  ],
+  "files": [
+    "package.json",
+    "index.html",
+    "live-preview.html",
+    "public/manifest.webmanifest",
+    "agentica.manifest.json",
+    "src/main.jsx",
+    "src/styles.css",
+    "README.md",
+    "DEPLOYMENT.md"
+  ],
+  "deploymentRequirements": {
+    "node": "22 LTS recommended, 20+ acceptable for Vite",
+    "buildCommand": "npm install && npm run build",
+    "staticOutput": "dist",
+    "localPreviewRoute": "/live-projects/mobile-online-food-business-1778508275030/",
+    "domain": "Point the domain to the server, enable HTTPS, and serve dist/ or proxy through Apache."
+  }
+}

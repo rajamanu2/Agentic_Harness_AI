@@ -1,0 +1,28 @@
+{
+  "name": "agenticaharness",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone AgenticaHarness platform for clean chat, planning, tooling, verification, generated app previews, and deployment work.",
+  "scripts": {
+    "dev": "concurrently \"node server.mjs\" \"vite --host 127.0.0.1\"",
+    "build": "vite build",
+    "agentica": "node agentica-cli.mjs",
+    "cli": "node agentica-cli.mjs",
+    "learn:web": "node scripts/open-source-learner.mjs --watch",
+    "learn:web:once": "node scripts/open-source-learner.mjs",
+    "learn:web:status": "node scripts/open-source-learner.mjs --status",
+    "learn:web:stop": "node scripts/open-source-learner.mjs --stop",
+    "preview": "vite preview --host 127.0.0.1",
+    "start": "node server.mjs",
+    "start:standalone": "node server.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.1.2",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vite": "^7.0.0"
+  }
+}

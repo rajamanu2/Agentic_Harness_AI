@@ -1,0 +1,9 @@
+{
+  "name": "Can U Me My Ai",
+  "short_name": "Can U Me My Ai",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111111",
+  "description": "Agentica-generated website app"
+}

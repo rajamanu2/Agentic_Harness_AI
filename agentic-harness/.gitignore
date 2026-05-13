@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-server/
+.harness/
+.env
+.env.*
+!.env.example
+*.log

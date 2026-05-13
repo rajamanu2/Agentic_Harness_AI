@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Builds
+dist/
+dist-electron/
+target/
+desktop/*.tsbuildinfo
+desktop/vite.config.js
+desktop/vite.config.d.ts
+
+# Local config
+.env
+.env.*
+!.env.example
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
+.runtime-logs/

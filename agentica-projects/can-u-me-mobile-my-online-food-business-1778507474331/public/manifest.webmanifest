@@ -1,0 +1,9 @@
+{
+  "name": "Can U Me Mobile My Online Food Business",
+  "short_name": "Can U Me Mobile My On...",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111111",
+  "description": "Agentica-generated restaurant app"
+}

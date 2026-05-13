@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Can U Me Online My Cloud Kichen</title>
+  <style>* { box-sizing: border-box; }
+body { margin: 0; background: #f7f7f4; color: #161616; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+.nav { align-items: center; background: rgba(255,255,255,.86); backdrop-filter: blur(16px); border-bottom: 1px solid #e7e5df; display: flex; justify-content: space-between; left: 0; min-height: 62px; padding: 0 28px; position: sticky; right: 0; top: 0; z-index: 4; }
+.nav div { display: flex; gap: 20px; color: #5d5a54; }
+.hero { align-items: end; background: radial-gradient(circle at 20% 10%, #11182733, transparent 32%), linear-gradient(135deg, #151515, #2b2b27); color: white; display: grid; min-height: 58vh; padding: 44px 28px; }
+.hero-copy { max-width: 920px; }
+.hero span, .eyebrow { font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #d8fff6; }
+h1 { font-size: clamp(2.6rem, 6vw, 5.6rem); letter-spacing: 0; line-height: .98; margin: 14px 0 18px; max-width: 980px; }
+.hero p { color: rgba(255,255,255,.78); font-size: 1.12rem; line-height: 1.65; max-width: 720px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.button { align-items: center; border: 1px solid #d8d5cc; border-radius: 8px; cursor: pointer; display: inline-flex; gap: 8px; justify-content: center; min-height: 44px; padding: 0 16px; }
+.button.primary, .card button, .filters button.active { background: #111827; border-color: #111827; color: white; }
+.strip { align-items: center; background: white; border-bottom: 1px solid #e7e5df; display: flex; gap: 18px; justify-content: center; min-height: 56px; padding: 10px 24px; color: #57534e; }
+.workspace { display: grid; gap: 24px; grid-template-columns: 280px 1fr; max-width: 1240px; margin: 0 auto; padding: 34px 24px; }
+.control-panel { align-self: start; background: white; border: 1px solid #e7e5df; border-radius: 8px; display: grid; gap: 18px; padding: 18px; position: sticky; top: 82px; }
+.search { align-items: center; border: 1px solid #d8d5cc; border-radius: 8px; display: flex; gap: 8px; min-height: 42px; padding: 0 10px; }
+.search input { border: 0; outline: 0; width: 100%; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filters button { background: #f5f2eb; border: 1px solid #e7e0d4; border-radius: 8px; cursor: pointer; min-height: 34px; padding: 0 10px; }
+.summary-box { border-top: 1px solid #e7e5df; display: grid; gap: 10px; padding-top: 18px; }
+.summary-box p { color: #6b6760; line-height: 1.5; margin: 0; }
+.summary-box h3 { font-size: 1.7rem; margin: 0; }
+.full { width: 100%; }
+.line { align-items: center; display: flex; gap: 8px; justify-content: space-between; }
+.line button { align-items: center; border: 1px solid #ddd8cf; border-radius: 999px; background: white; display: inline-flex; height: 28px; justify-content: center; width: 28px; }
+.cards { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.card { background: white; border: 1px solid #e7e5df; border-radius: 8px; display: flex; flex-direction: column; min-height: 330px; padding: 16px; }
+.thumb { align-items: center; background: linear-gradient(135deg, #111827, #111827); border-radius: 8px; color: white; display: flex; font-size: 2.4rem; font-weight: 900; height: 128px; justify-content: center; margin-bottom: 14px; }
+.card-head, .card-foot { align-items: center; display: flex; justify-content: space-between; gap: 12px; }
+.card-head span { color: #111827; font-size: .78rem; font-weight: 800; text-transform: uppercase; }
+.card h2 { font-size: 1.25rem; margin: 14px 0 8px; }
+.card p { color: #5f5b53; line-height: 1.55; flex: 1; }
+.card button { align-items: center; border: 0; border-radius: 8px; cursor: pointer; display: inline-flex; gap: 6px; min-height: 38px; padding: 0 12px; }
+.flow { display: grid; gap: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 1240px; margin: 0 auto 56px; padding: 0 24px; }
+.flow div { background: #161616; border-radius: 8px; color: white; display: grid; gap: 8px; min-height: 160px; padding: 20px; }
+.flow span { color: #a7f3d0; font-weight: 900; }
+.flow p { color: rgba(255,255,255,.68); line-height: 1.5; }
+@media (max-width: 980px) { .workspace { grid-template-columns: 1fr; } .control-panel { position: static; } .cards, .flow { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 680px) { .nav { align-items: flex-start; flex-direction: column; gap: 8px; padding: 14px 18px; } .hero { padding: 28px 18px; } .cards, .flow { grid-template-columns: 1fr; } .strip { align-items: flex-start; flex-direction: column; } }</style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const spec = {"wantsApp":true,"appType":"website","title":"Can U Me Online My Cloud Kichen","prompt":"can u build me a online app for my cloud kichen","audience":"visitors","tone":"modern","catalog":[{"id":"website-1","name":"Core Offer","category":"Section","price":1,"rating":4.8,"inventory":26,"description":"Explains the main value clearly."},{"id":"website-2","name":"Proof Points","category":"Section","price":1,"rating":4.9,"inventory":33,"description":"Builds trust with outcomes and details."},{"id":"website-3","name":"Contact Flow","category":"Section","price":1,"rating":4.5,"inventory":40,"description":"Turns interest into action."}],"modules":["content sections","trust blocks","contact form","responsive shell","hero","search/filter","data cards","detail panel"],"actions":["Get Started","Contact"],"stats":{"items":3,"average":1,"label":"items"},"primaryAction":"Get Started","secondaryAction":"Contact"};
+    let selectedCategory = "All";
+    let cart = [];
+    function money(value) {
+      if (spec.appType === "portfolio" || spec.appType === "website") return "";
+      return "₹" + Number(value || 0).toLocaleString("en-IN");
+    }
+    function categories() {
+      return ["All", ...new Set(spec.catalog.map(item => item.category))];
+    }
+    function filtered() {
+      return selectedCategory === "All" ? spec.catalog : spec.catalog.filter(item => item.category === selectedCategory);
+    }
+    function addItem(id) {
+      const item = spec.catalog.find(entry => entry.id === id);
+      if (!item) return;
+      const found = cart.find(entry => entry.id === id);
+      if (found) found.qty += 1;
+      else cart.push({ ...item, qty: 1 });
+      render();
+    }
+    function removeItem(id) {
+      cart = cart.filter(item => item.id !== id);
+      render();
+    }
+    function total() {
+      return cart.reduce((sum, item) => sum + Number(item.price || 0) * item.qty, 0);
+    }
+    function render() {
+      const app = document.getElementById("app");
+      const action = spec.primaryAction || "Select";
+      const label = spec.appType === "commerce" ? "cart" : spec.appType === "restaurant" ? "order" : "selection";
+      app.innerHTML = `
+        <nav class="nav"><strong>${spec.title}</strong><div><a href="#catalog">Catalog</a><a href="#summary">Summary</a><a href="#flow">Flow</a></div></nav>
+        <header class="hero">
+          <div>
+            <span class="eyebrow">${spec.appType} for ${spec.audience}</span>
+            <h1>${headline(spec)}</h1>
+            <p>${subhead(spec)}</p>
+            <div class="actions"><a class="button primary" href="#catalog">${action}</a><a class="button" href="#summary">${spec.secondaryAction}</a></div>
+          </div>
+        </header>
+        <main>
+          <section class="strip">${spec.stats.items} ${spec.stats.label}<span></span>${spec.modules.slice(0, 4).join(" • ")}</section>
+          <section id="catalog" class="workspace">
+            <aside>
+              <h2>Controls</h2>
+              <div class="filters">${categories().map(category => `<button class="${category === selectedCategory ? "active" : ""}" onclick="selectedCategory='${category}';render()">${category}</button>`).join("")}</div>
+              <div class="summary-box" id="summary">
+                <strong>${label.charAt(0).toUpperCase() + label.slice(1)} summary</strong>
+                <p>${cart.length ? cart.map(item => item.name + " x" + item.qty).join(", ") : "No items selected yet."}</p>
+                <h3>${money(total()) || cart.length + " selected"}</h3>
+                <button class="button primary full" onclick="alert('Demo flow: connect payment/API next')">${spec.secondaryAction}</button>
+              </div>
+            </aside>
+            <section class="cards">
+              ${filtered().map(item => `
+                <article class="card">
+                  <div class="thumb">${item.category.slice(0, 2).toUpperCase()}</div>
+                  <div class="card-head"><span>${item.category}</span><b>${item.rating}★</b></div>
+                  <h3>${item.name}</h3>
+                  <p>${item.description}</p>
+                  <div class="card-foot"><strong>${money(item.price) || item.inventory + " slots"}</strong><button onclick="addItem('${item.id}')">${action}</button></div>
+                </article>
+              `).join("")}
+            </section>
+          </section>
+          <section class="flow" id="flow">
+            ${spec.modules.slice(0, 6).map((module, index) => `<div><span>0${index + 1}</span><strong>${module}</strong><p>Generated because the prompt calls for a ${spec.appType} experience.</p></div>`).join("")}
+          </section>
+        </main>`;
+    }
+    function headline(spec) {
+      if (spec.appType === "commerce") return "A working storefront with products, cart, and checkout flow.";
+      if (spec.appType === "booking") return "A booking experience with availability and reservation intent.";
+      if (spec.appType === "dashboard") return "A focused operating dashboard for decisions.";
+      return "A working web app shaped from your prompt.";
+    }
+    function subhead(spec) {
+      return "Agentica inferred the domain, modules, data, actions, and UI from the prompt instead of using one fixed template.";
+    }
+    render();
+  </script>
+</body>
+</html>
