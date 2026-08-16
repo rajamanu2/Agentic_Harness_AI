@@ -1,0 +1,4 @@
+title = "ForgeOS SDK secret scanning"
+
+[extend]
+useDefault = true

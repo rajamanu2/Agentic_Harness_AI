@@ -5,6 +5,7 @@ import { createServer } from "node:http";
 import { mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import builtInAdapterRegistry from "./adapters/registry.json" with { type: "json" };
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(rootDir, "public");
@@ -162,19 +163,7 @@ const modelProviders = [
   provider("custom-agentica-helper", "Custom AgenticaHarness-Compatible Helper", "agentica-chat-compatible", "CUSTOM_OPENAI_API_KEY", "", false)
 ];
 
-const stackDefinitions = [
-  stack("node", "Node / TypeScript / Frontend", ["package.json", "tsconfig.json", "vite.config.ts", "next.config.js", "src/main.tsx"], [], ["npm install"], ["npm test"], ["npm run build"], ["npm run dev"], ["Check package scripts before running commands.", "Use browser smoke checks for UI apps."]),
-  stack("python", "Python", ["pyproject.toml", "requirements.txt", "setup.py", "Pipfile", "main.py", "app.py"], [], ["pip install -r requirements.txt"], ["pytest"], ["python -m compileall ."], ["python app.py"], ["Prefer project-specific test scripts from pyproject when present."]),
-  stack("java", "Java / JVM", ["pom.xml", "build.gradle", "settings.gradle", "gradlew", "src/main/java"], [], ["./mvnw dependency:go-offline"], ["./mvnw test"], ["./mvnw package"], ["./mvnw spring-boot:run"], ["Use Maven or Gradle based on the detected wrapper."]),
-  stack("dotnet", ".NET", [], [".sln", ".csproj", ".fsproj"], ["dotnet restore"], ["dotnet test"], ["dotnet build"], ["dotnet run"], ["Choose the application project when a solution has multiple projects."]),
-  stack("go", "Go", ["go.mod", "go.sum"], [], ["go mod download"], ["go test ./..."], ["go build ./..."], ["go run ."], ["Use package-level tests and race checks when concurrency is touched."]),
-  stack("rust", "Rust", ["Cargo.toml", "Cargo.lock"], [], ["cargo fetch"], ["cargo test"], ["cargo build"], ["cargo run"], ["Use cargo clippy when available for verifier depth."]),
-  stack("php", "PHP / Composer", ["composer.json", "composer.lock"], [], ["composer install"], ["vendor/bin/phpunit"], ["composer validate"], ["php -S localhost:8000"], ["Laravel apps may use artisan test and artisan serve."]),
-  stack("ruby", "Ruby", ["Gemfile", "Rakefile", "config.ru"], [], ["bundle install"], ["bundle exec rspec"], ["bundle exec rake"], ["bundle exec rails server"], ["Detect Rails vs plain Ruby before choosing run commands."]),
-  stack("salesforce", "Salesforce DX", ["sfdx-project.json", "force-app/main/default", "manifest/package.xml"], [], ["sf org login web --alias dev-sandbox"], ["sf apex run test --target-org dev-sandbox --result-format human"], ["sf project deploy validate --target-org dev-sandbox"], ["sf org open --target-org dev-sandbox"], ["Production deployment remains gated behind human approval."]),
-  stack("docker", "Docker / Compose", ["Dockerfile", "docker-compose.yml", "compose.yml", "compose.yaml"], [], ["docker compose pull"], ["docker compose config"], ["docker compose build"], ["docker compose up"], ["Do not run compose up automatically outside supervised lab mode."]),
-  stack("terraform", "Terraform / IaC", [], [".tf"], ["terraform init"], ["terraform validate"], ["terraform plan"], ["terraform apply"], ["Apply is critical risk and always requires approval."])
-];
+const stackDefinitions = loadAdapterRegistry();
 
 const server = createServer(async (request, response) => {
   try {
@@ -195,6 +184,8 @@ const server = createServer(async (request, response) => {
 
     if (url.pathname === "/api/blueprint" && request.method === "GET") return json(response, blueprint);
     if (url.pathname === "/api/tools" && request.method === "GET") return json(response, tools);
+    if (url.pathname === "/api/adapters" && request.method === "GET") return json(response, adapterCatalog());
+    if (url.pathname === "/api/connections" && request.method === "GET") return json(response, await discoverConnections());
     if (url.pathname === "/api/mcp/status" && request.method === "GET") return json(response, await mcpRuntimeStatus());
     if (url.pathname === "/api/models" && request.method === "GET") return json(response, models);
     if (url.pathname === "/api/model-providers" && request.method === "GET") return json(response, publicModelProviders());
@@ -241,6 +232,11 @@ const server = createServer(async (request, response) => {
     if (url.pathname === "/api/scan" && request.method === "POST") {
       const body = await readJson(request);
       return json(response, await scanRepository(body.repoPath || "."));
+    }
+
+    if (url.pathname === "/api/scan-website" && request.method === "POST") {
+      const body = await readJson(request);
+      return json(response, await scanWebsite(body.url));
     }
 
     if (url.pathname === "/api/chat" && request.method === "POST") {
@@ -870,8 +866,105 @@ function providerEnvValue(providerInfo) {
   return String(process.env[providerInfo.env] || legacyEnvs.map((envName) => process.env[envName]).find(Boolean) || "").trim();
 }
 
-function stack(id, name, exact, suffix, install, test, build, run, verifierNotes) {
-  return { id, name, exact, suffix, install, test, build, run, verifierNotes };
+function loadAdapterRegistry() {
+  const registry = builtInAdapterRegistry;
+  if (!registry || !Array.isArray(registry.adapters)) throw new Error("ForgeOS adapter registry must contain an adapters array.");
+  return registry.adapters.map(normalizeAdapter);
+}
+
+function normalizeAdapter(adapter) {
+  if (!adapter || !/^[a-z0-9][a-z0-9-]*$/.test(String(adapter.id || "")) || !String(adapter.name || "").trim()) {
+    throw new Error("Every ForgeOS adapter requires a lowercase id and a name.");
+  }
+  const arrays = ["files", "suffixes", "dependencies", "allDependencies", "websiteSignatures", "install", "test", "build", "run", "verifierNotes"];
+  const normalized = { ...adapter };
+  for (const field of arrays) normalized[field] = Array.isArray(adapter[field]) ? adapter[field].map(String) : [];
+  return normalized;
+}
+
+function projectAdapterDefinitions(repoPath) {
+  const customPaths = [path.join(repoPath, ".forgeos", "adapters.json"), path.join(repoPath, "forgeos.adapters.json")];
+  const custom = [];
+  for (const customPath of customPaths) {
+    if (!existsSync(customPath)) continue;
+    const document = JSON.parse(readFileSync(customPath, "utf8"));
+    if (!Array.isArray(document.adapters)) throw new Error(`${customPath} must contain an adapters array.`);
+    custom.push(...document.adapters.map(normalizeAdapter));
+  }
+  const merged = new Map(stackDefinitions.map((adapter) => [adapter.id, adapter]));
+  for (const adapter of custom) merged.set(adapter.id, adapter);
+  return Array.from(merged.values());
+}
+
+function adapterCatalog() {
+  return { version: 1, extensible: true, workspaceFiles: [".forgeos/adapters.json", "forgeos.adapters.json"], adapters: stackDefinitions };
+}
+
+async function discoverConnections() {
+  const [salesforce, aws, kubernetes, git] = await Promise.all([
+    discoverSalesforceOrgs(),
+    discoverJsonCommand("aws", ["sts", "get-caller-identity", "--output", "json"], (value) => ({ account: value.Account, arn: value.Arn, userId: value.UserId })),
+    discoverJsonCommand("kubectl", ["config", "view", "-o", "json"], (value) => ({ currentContext: value["current-context"] || null, contexts: (value.contexts || []).map((item) => item.name).filter(Boolean) })),
+    discoverTextCommand("git", ["--version"])
+  ]);
+  const providers = [
+    ["ForgeOS", "FORGEOS_API_KEY"], ["Anthropic", "ANTHROPIC_API_KEY"], ["OpenAI", "OPENAI_API_KEY"],
+    ["OpenRouter", "OPENROUTER_API_KEY"], ["Google Gemini", "GOOGLE_API_KEY"], ["NVIDIA", "NVIDIA_API_KEY"]
+  ].map(([name, env]) => ({ name, configured: Boolean(String(process.env[env] || "").trim()), source: env }));
+  return {
+    checkedAt: new Date().toISOString(),
+    providers,
+    salesforce,
+    aws,
+    kubernetes,
+    git,
+    n8n: { configured: Boolean(process.env.N8N_BASE_URL), baseUrl: connectionSafeUrl(process.env.N8N_BASE_URL || ""), credentialConfigured: Boolean(process.env.N8N_API_KEY) },
+    policy: "Connection discovery is read-only. Secrets and access tokens are never returned."
+  };
+}
+
+async function discoverSalesforceOrgs() {
+  return discoverJsonCommand("sf", ["org", "list", "--json"], (value) => {
+    const groups = ["nonScratchOrgs", "scratchOrgs", "sandboxes", "devHubs", "other"];
+    const seen = new Set();
+    const orgs = [];
+    for (const group of groups) {
+      for (const org of value.result?.[group] || value[group] || []) {
+        const key = org.alias || org.username || org.orgId;
+        if (!key || seen.has(key)) continue;
+        seen.add(key);
+        orgs.push({ alias: org.alias || null, username: org.username || null, orgId: org.orgId || null, instanceUrl: connectionSafeUrl(org.instanceUrl || ""), connectedStatus: org.connectedStatus || null, isDefaultUsername: Boolean(org.isDefaultUsername), isDefaultDevHubUsername: Boolean(org.isDefaultDevHubUsername) });
+      }
+    }
+    return { orgs };
+  });
+}
+
+function discoverJsonCommand(command, args, select) {
+  return runDiscoveryCommand(command, args).then((result) => {
+    if (!result.available || result.exitCode !== 0) return result;
+    try { return { available: true, authenticated: true, ...select(JSON.parse(result.stdout)) }; }
+    catch { return { available: true, authenticated: false, error: "Command returned invalid JSON." }; }
+  });
+}
+
+function discoverTextCommand(command, args) {
+  return runDiscoveryCommand(command, args).then((result) => ({ available: result.available, ready: result.exitCode === 0, version: result.exitCode === 0 ? result.stdout.trim().slice(0, 160) : null, error: result.error || null }));
+}
+
+function runDiscoveryCommand(command, args) {
+  return new Promise((resolve) => {
+    execFile(command, args, { timeout: 8000, windowsHide: true, maxBuffer: 2_000_000 }, (error, stdout, stderr) => {
+      if (error?.code === "ENOENT") return resolve({ available: false, authenticated: false, exitCode: null });
+      resolve({ available: true, authenticated: !error, exitCode: typeof error?.code === "number" ? error.code : error ? 1 : 0, stdout: String(stdout || ""), error: error ? String(stderr || error.message).trim().slice(0, 300) : null });
+    });
+  });
+}
+
+function connectionSafeUrl(value) {
+  if (!value) return null;
+  try { const url = new URL(value); url.username = ""; url.password = ""; return url.toString().replace(/\/$/, ""); }
+  catch { return null; }
 }
 
 async function scanRepository(repoPath) {
@@ -888,27 +981,16 @@ async function scanRepository(repoPath) {
   }
 
   const detectedFiles = await listFiles(resolved);
-  const stacks = stackDefinitions.map((definition) => toProfile(definition, detectedFiles)).filter(Boolean);
-  if (stacks.length === 0 && resolved.toLowerCase().includes("salesforce")) {
-    stacks.push({
-      id: "salesforce",
-      name: "Salesforce DX",
-      confidence: "Medium",
-      markers: ["folder name: salesforce"],
-      install: ["sf org login web --alias dev-sandbox --instance-url https://test.salesforce.com"],
-      test: ["sf apex run test --target-org dev-sandbox --result-format human"],
-      build: ["sf project deploy validate --target-org dev-sandbox"],
-      run: ["sf org open --target-org dev-sandbox"],
-      verifierNotes: ["Folder is Salesforce-targeted. Add sfdx-project.json and force-app metadata when implementation starts."]
-    });
-  }
+  const signals = await collectRepositorySignals(resolved, detectedFiles);
+  const definitions = projectAdapterDefinitions(resolved);
+  const stacks = definitions.map((definition) => toProfile(definition, detectedFiles, signals)).filter(Boolean);
   const recommendedCommands = unique(stacks.flatMap((profile) => [...profile.install, ...profile.test, ...profile.build]));
   const warnings = [
     ...(stacks.length === 0 ? ["No supported stack markers were found. Add a custom adapter before execution."] : []),
     ...(detectedFiles.length >= maxFiles ? ["File scan reached the sampling limit. Narrow the repo path for deeper context."] : [])
   ];
 
-  return { repoPath: resolved, exists: true, stacks, detectedFiles, recommendedCommands, warnings };
+  return { repoPath: resolved, exists: true, adapterRegistryVersion: 1, stacks, detectedFiles, packageSignals: signals, recommendedCommands, warnings };
 }
 
 function normalizeAgenticaOptions(options = null) {
@@ -5720,17 +5802,45 @@ async function listFiles(root) {
   return files.sort((a, b) => a.localeCompare(b));
 }
 
-function toProfile(definition, files) {
+async function collectRepositorySignals(root, files) {
+  const dependencies = new Set();
+  const scripts = new Set();
+  const manifests = files.filter((file) => file === "package.json" || file.endsWith("/package.json")).slice(0, 40);
+  for (const manifest of manifests) {
+    try {
+      const packageJson = JSON.parse(await readFile(path.join(root, manifest), "utf8"));
+      for (const group of [packageJson.dependencies, packageJson.devDependencies, packageJson.peerDependencies, packageJson.optionalDependencies]) {
+        for (const dependency of Object.keys(group || {})) dependencies.add(dependency.toLowerCase());
+      }
+      for (const script of Object.keys(packageJson.scripts || {})) scripts.add(script);
+    } catch {
+      // A malformed package manifest is reported by its own build tooling; scanning continues.
+    }
+  }
+  return { dependencies: Array.from(dependencies).sort(), scripts: Array.from(scripts).sort(), manifests };
+}
+
+function toProfile(definition, files, signals = { dependencies: [] }) {
   const markers = new Set();
 
-  for (const exact of definition.exact) {
+  for (const exact of definition.files) {
     const match = files.find((file) => file === exact || file.endsWith(`/${exact}`) || file.startsWith(`${exact}/`) || file.includes(`/${exact}/`));
     if (match) markers.add(match);
   }
 
-  for (const suffix of definition.suffix) {
-    const match = files.find((file) => file.toLowerCase().endsWith(suffix));
+  for (const suffix of definition.suffixes) {
+    const match = files.find((file) => file.toLowerCase().endsWith(suffix.toLowerCase()));
     if (match) markers.add(match);
+  }
+
+  const dependencySet = new Set(signals.dependencies || []);
+  const dependencyMatches = definition.dependencies.filter((dependency) => dependencySet.has(dependency.toLowerCase()));
+  for (const dependency of dependencyMatches) markers.add(`dependency:${dependency}`);
+
+  if (definition.allDependencies.length > 0) {
+    const complete = definition.allDependencies.every((dependency) => dependencySet.has(dependency.toLowerCase()));
+    if (!complete) return null;
+    for (const dependency of definition.allDependencies) markers.add(`dependency:${dependency}`);
   }
 
   const markerList = Array.from(markers);
@@ -5746,6 +5856,34 @@ function toProfile(definition, files) {
     build: definition.build,
     run: definition.run,
     verifierNotes: definition.verifierNotes
+  };
+}
+
+async function scanWebsite(rawUrl) {
+  if (!rawUrl || typeof rawUrl !== "string") throw new Error("url is required");
+  const target = new URL(rawUrl);
+  if (!["http:", "https:"].includes(target.protocol)) throw new Error("Only HTTP and HTTPS websites can be scanned.");
+  const hostName = target.hostname.toLowerCase();
+  if (hostName === "localhost" || hostName.endsWith(".local") || /^(127\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(hostName)) {
+    throw new Error("Private and local network addresses are not allowed in website scans.");
+  }
+  const response = await fetch(target, { redirect: "follow", signal: AbortSignal.timeout(12000), headers: { "user-agent": "ForgeOS-Technology-Scanner/1.0" } });
+  if (!response.ok) throw new Error(`Website returned HTTP ${response.status}.`);
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("text/html")) throw new Error(`Expected HTML but received ${contentType || "an unknown content type"}.`);
+  const html = (await response.text()).slice(0, 2_000_000).toLowerCase();
+  const stacks = stackDefinitions.map((definition) => {
+    const matches = definition.websiteSignatures.filter((signature) => html.includes(signature.toLowerCase()));
+    if (matches.length === 0) return null;
+    return { id: definition.id, name: definition.name, confidence: matches.length > 2 ? "High" : matches.length > 1 ? "Medium" : "Low", markers: matches.map((match) => `html:${match}`), verifierNotes: definition.verifierNotes };
+  }).filter(Boolean);
+  return {
+    url: target.toString(),
+    finalUrl: response.url,
+    scannedAt: new Date().toISOString(),
+    evidenceSource: "live-html",
+    stacks,
+    warnings: ["Website detection is evidence-based but minification, proxies, and server rendering can hide implementation details."]
   };
 }
 

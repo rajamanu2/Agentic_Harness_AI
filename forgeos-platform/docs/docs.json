@@ -1,0 +1,1126 @@
+{
+	"$schema": "https://mintlify.com/docs.json",
+	"theme": "mint",
+	"name": "ForgeOS",
+	"description": "AI-powered coding agent for complex work",
+	"colors": {
+		"primary": "#9D4EDD",
+		"light": "#F0E6FF",
+		"dark": "#000000"
+	},
+	"logo": {
+		"light": "/assets/ForgeOS_Logo-complete_black.png",
+		"dark": "/assets/ForgeOS_Logo-complete_white.png",
+		"href": "https://forgeos.bot/"
+	},
+	"favicon": {
+		"light": "/assets/robot_panel_light.png",
+		"dark": "/assets/robot_panel_dark.png"
+	},
+	"background": {
+		"color": {
+			"light": "#fafaf9",
+			"dark": "#0f0f0f"
+		}
+	},
+	"styling": {
+		"eyebrows": "breadcrumbs",
+		"codeblocks": "system",
+		"css": "styles.css"
+	},
+	"appearance": {
+		"default": "system",
+		"strict": false
+	},
+	"fonts": {
+		"family": "Geist Sans"
+	},
+	"navbar": {
+		"links": [
+			{
+				"label": "GitHub",
+				"icon": "github",
+				"href": "https://github.com/forgeos/forgeos"
+			},
+			{
+				"label": "Discord",
+				"icon": "discord",
+				"href": "https://discord.gg/forgeos"
+			}
+		],
+		"primary": {
+			"type": "button",
+			"label": "Install ForgeOS",
+			"href": "https://forgeos.bot/install?utm_source=website&utm_medium=header"
+		}
+	},
+	"navigation": {
+		"tabs": [
+			{
+				"tab": "ForgeOS",
+				"icon": "robot",
+				"groups": [
+					{
+						"group": "Getting Started",
+						"pages": [
+							"forgeos-overview",
+							"getting-started/installing-forgeos",
+							"getting-started/forgeos-provider",
+							"getting-started/forgeospass",
+							"getting-started/free-models",
+							{
+								"group": "Other Models & Providers",
+								"pages": [
+									"getting-started/authorizing-with-forgeos",
+									"running-models-locally/overview",
+									{
+										"group": "Cloud Providers",
+										"pages": [
+											"provider-config/qwen",
+											"provider-config/anthropic",
+											{
+												"group": "AWS Bedrock",
+												"pages": [
+													"provider-config/aws-bedrock/api-key",
+													"provider-config/aws-bedrock/iam-credentials",
+													"provider-config/aws-bedrock/cli-profile"
+												]
+											},
+											"provider-config/deepseek",
+											"provider-config/google-gemini",
+											"provider-config/minimax",
+											"provider-config/openai",
+											"provider-config/openai-compatible",
+											"provider-config/openrouter",
+											"provider-config/poolside",
+											"provider-config/zai",
+											"provider-config/other-30-plus-providers"
+										]
+									}
+								]
+							},
+							"getting-started/config"
+						]
+					},
+					{
+						"group": "Usage",
+						"pages": [
+							"usage/ide",
+							"usage/tui",
+							{
+								"group": "CLI",
+								"pages": [
+									"usage/cli-overview",
+									"cli/cli-reference",
+									{
+										"group": "Examples",
+										"pages": [
+											"cli/samples/github-issue-rca",
+											"cli/samples/github-integration",
+											"cli/samples/github-pr-review",
+											"cli/samples/model-orchestration",
+											"cli/samples/supply-chain-alerts"
+										]
+									}
+								]
+							},
+							"usage/acp",
+							{
+								"group": "Kanban",
+								"pages": [
+									"usage/kanban",
+									"kanban/core-workflow",
+									"kanban/remote-access"
+								]
+							}
+						]
+					},
+					{
+						"group": "Configurations",
+						"pages": [
+							"tools-reference/all-forgeos-tools",
+							"customization/forgeos-rules",
+							"customization/skills",
+							"customization/plugins",
+							"mcp/mcp-overview",
+							"customization/hooks",
+							"cli/scheduling",
+							"cli/connectors",
+							"customization/forgeosignore"
+						]
+					},
+					{
+						"group": "Features",
+						"pages": [
+							"core-workflows/plan-and-act",
+							"core-workflows/working-with-files",
+							"core-workflows/using-commands",
+							"core-workflows/checkpoints",
+							"cli/agent-teams",
+							"features/subagents"
+						]
+					},
+					{
+						"group": "Best Practices",
+						"pages": [
+							"best-practices/memory-bank"
+						]
+					},
+					{
+						"group": "IDE Specific Features",
+						"pages": [
+							"features/auto-approve",
+							"features/jupyter-notebooks",
+							"features/multiroot-workspace"
+						]
+					},
+					{
+						"group": "Troubleshooting",
+						"pages": [
+							"troubleshooting/networking-and-proxies"
+						]
+					}
+				]
+			},
+			{
+				"tab": "SDK",
+				"icon": "cube",
+				"groups": [
+					{
+						"group": "Start",
+						"pages": [
+							"sdk/overview",
+							"sdk/examples"
+						]
+					},
+					{
+						"group": "Concepts",
+						"pages": [
+							{
+								"group": "Plugins",
+								"pages": [
+									"sdk/plugins",
+									"sdk/plugin-install",
+									"sdk/guides/writing-plugins",
+									"sdk/plugin-examples"
+								]
+							},
+							{
+								"group": "Tools",
+								"pages": [
+									"sdk/tools",
+									"sdk/guides/creating-custom-tools"
+								]
+							},
+							"sdk/guides/scheduled-agents",
+							"sdk/events",
+							"sdk/model-providers",
+							"sdk/forgeoscore"
+						]
+					},
+					{
+						"group": "Architecture",
+						"pages": [
+							"sdk/architecture/overview",
+							"sdk/architecture/hub-spoke"
+						]
+					},
+					{
+						"group": "Guides",
+						"pages": [
+							"sdk/guides/building-an-agent",
+							"sdk/guides/permission-handling",
+							"sdk/guides/multi-agent-teams",
+							"sdk/guides/going-to-production"
+						]
+					},
+					{
+						"group": "API Reference",
+						"pages": [
+							"sdk/reference/forgeos-core",
+							"sdk/reference/agent",
+							"sdk/reference/gateway",
+							"sdk/reference/tools-api",
+							"sdk/reference/events",
+							"sdk/reference/types"
+						]
+					}
+				]
+			},
+			{
+				"tab": "Enterprise",
+				"icon": "building",
+				"groups": [
+					{
+						"group": "Enterprise Solutions",
+						"pages": [
+							"enterprise-solutions/overview",
+							"enterprise-solutions/onboarding",
+							"enterprise-solutions/sso-setup",
+							"enterprise-solutions/team-management/managing-members",
+							{
+								"group": "Remote Provider Configuration",
+								"pages": [
+									"enterprise-solutions/configuration/remote-configuration/overview",
+									{
+										"group": "AWS Bedrock",
+										"pages": [
+											"enterprise-solutions/configuration/remote-configuration/aws-bedrock/admin-configuration",
+											"enterprise-solutions/configuration/remote-configuration/aws-bedrock/member-configuration"
+										]
+									},
+									{
+										"group": "Google Vertex AI",
+										"pages": [
+											"enterprise-solutions/configuration/remote-configuration/google-vertex/admin-configuration",
+											"enterprise-solutions/configuration/remote-configuration/google-vertex/member-configuration"
+										]
+									},
+									{
+										"group": "OpenAI Compatible",
+										"pages": [
+											"enterprise-solutions/configuration/remote-configuration/openai-compatible/admin-configuration",
+											"enterprise-solutions/configuration/remote-configuration/openai-compatible/member-configuration"
+										]
+									},
+									{
+										"group": "Anthropic",
+										"pages": [
+											"enterprise-solutions/configuration/remote-configuration/anthropic/admin-configuration",
+											"enterprise-solutions/configuration/remote-configuration/anthropic/member-configuration"
+										]
+									},
+									{
+										"group": "LiteLLM",
+										"pages": [
+											"enterprise-solutions/configuration/remote-configuration/litellm/admin-configuration",
+											"enterprise-solutions/configuration/remote-configuration/litellm/member-configuration"
+										]
+									}
+								]
+							},
+							{
+								"group": "Control Other ForgeOS Features",
+								"pages": [
+									"enterprise-solutions/configuration/infrastructure-configuration/control-other-forgeos-features/yolo-mode",
+									"enterprise-solutions/configuration/infrastructure-configuration/control-other-forgeos-features/mcp-server-controls"
+								]
+							},
+							{
+								"group": "Monitoring",
+								"pages": [
+									"enterprise-solutions/monitoring/overview",
+									"enterprise-solutions/monitoring/telemetry",
+									"enterprise-solutions/monitoring/prompt-storage",
+									"enterprise-solutions/monitoring/opentelemetry",
+									"enterprise-solutions/monitoring/opentelemetry-events",
+									"enterprise-solutions/monitoring/opentelemetry_override"
+								]
+							},
+							"enterprise-solutions/api-reference"
+						]
+					}
+				]
+			},
+			{
+				"tab": "API",
+				"icon": "code",
+				"groups": [
+					{
+						"group": "ForgeOS API",
+						"pages": [
+							"api/overview",
+							"api/getting-started",
+							"api/authentication"
+						]
+					},
+					{
+						"group": "Endpoints",
+						"pages": [
+							"api/chat-completions"
+						]
+					},
+					{
+						"group": "Reference",
+						"pages": [
+							"api/models",
+							"api/errors",
+							"api/sdk-examples"
+						]
+					}
+				]
+			}
+		]
+	},
+	"footer": {
+		"socials": {
+			"x": "https://x.com/forgeos",
+			"github": "https://github.com/forgeos/forgeos",
+			"discord": "https://discord.gg/forgeos"
+		}
+	},
+	"anchors": [
+		{
+			"name": "Overview",
+			"icon": "house",
+			"url": "forgeos-overview"
+		}
+	],
+	"redirects": [
+		{
+			"source": "/enterprise-solutions/configuration/infrastructure-configuration/control-other-forgeos-features/mcp-marketplace",
+			"destination": "/enterprise-solutions/configuration/infrastructure-configuration/control-other-forgeos-features/mcp-server-controls"
+		},
+		{
+			"source": "/usage/cli",
+			"destination": "/usage/cli-overview"
+		},
+		{
+			"source": "/getting-started/installing-forgeos-jetbrains",
+			"destination": "/getting-started/installing-forgeos"
+		},
+		{
+			"source": "/getting-started/for-new-coders",
+			"destination": "/getting-started/installing-forgeos"
+		},
+		{
+			"source": "/getting-started/overview",
+			"destination": "/forgeos-overview"
+		},
+		{
+			"source": "/getting-started/your-first-project",
+			"destination": "/usage/ide"
+		},
+		{
+			"source": "/introduction",
+			"destination": "/forgeos-overview"
+		},
+		{
+			"source": "/introduction/welcome",
+			"destination": "/forgeos-overview"
+		},
+		{
+			"source": "/introduction/overview",
+			"destination": "/forgeos-overview"
+		},
+		{
+			"source": "/getting-started/model-selection-guide",
+			"destination": "/getting-started/forgeos-provider"
+		},
+		{
+			"source": "/provider-config/ollama",
+			"destination": "/running-models-locally/overview#runtime-options"
+		},
+		{
+			"source": "/running-models-locally/read-me-first",
+			"destination": "/running-models-locally/overview"
+		},
+		{
+			"source": "/running-models-locally/ollama",
+			"destination": "/running-models-locally/overview#runtime-options"
+		},
+		{
+			"source": "/running-models-locally/lm-studio",
+			"destination": "/running-models-locally/overview#runtime-options"
+		},
+		{
+			"source": "/getting-started/understanding-context-management",
+			"destination": "/getting-started/forgeos-provider"
+		},
+		{
+			"source": "/best-practices/understanding-context-management",
+			"destination": "/getting-started/forgeos-provider"
+		},
+		{
+			"source": "/prompting/understanding-context-management",
+			"destination": "/getting-started/forgeos-provider"
+		},
+		{
+			"source": "/model-config/context-windows",
+			"destination": "/getting-started/forgeos-provider"
+		},
+		{
+			"source": "/core-features/model-selection-guide",
+			"destination": "/getting-started/forgeos-provider"
+		},
+		{
+			"source": "/prompting/prompt-engineering-guide",
+			"destination": "/customization/forgeos-rules"
+		},
+		{
+			"source": "/prompting/forgeos-memory-bank",
+			"destination": "/best-practices/memory-bank"
+		},
+		{
+			"source": "/customization/memory-bank",
+			"destination": "/best-practices/memory-bank"
+		},
+		{
+			"source": "/customization/overview",
+			"destination": "/getting-started/config"
+		},
+		{
+			"source": "/customization/focus-chain",
+			"destination": "/core-workflows/using-commands#deep-planning"
+		},
+		{
+			"source": "/features/deep-planning",
+			"destination": "/core-workflows/using-commands#deep-planning"
+		},
+		{
+			"source": "/customization/auto-approve",
+			"destination": "/features/auto-approve"
+		},
+		{
+			"source": "/customization/auto-compact",
+			"destination": "/features/auto-compact"
+		},
+		{
+			"source": "/getting-started/your-first-task",
+			"destination": "/usage/ide"
+		},
+		{
+			"source": "/features/hooks/real-world-examples",
+			"destination": "/customization/hooks"
+		},
+		{
+			"source": "/features/hooks/index",
+			"destination": "/customization/hooks"
+		},
+		{
+			"source": "/features/hooks/hook-reference",
+			"destination": "/customization/hooks"
+		},
+		{
+			"source": "/features/hooks/samples",
+			"destination": "/customization/hooks"
+		},
+		{
+			"source": "/features/plan-and-act",
+			"destination": "/core-workflows/plan-and-act"
+		},
+		{
+			"source": "/features/checkpoints",
+			"destination": "/core-workflows/checkpoints"
+		},
+		{
+			"source": "/features/tasks/understanding-tasks",
+			"destination": "/core-workflows/task-management"
+		},
+		{
+			"source": "/features/tasks/task-management",
+			"destination": "/core-workflows/task-management"
+		},
+		{
+			"source": "/features/at-mentions/overview",
+			"destination": "/core-workflows/working-with-files"
+		},
+		{
+			"source": "/features/at-mentions/file-mentions",
+			"destination": "/core-workflows/working-with-files"
+		},
+		{
+			"source": "/features/at-mentions/folder-mentions",
+			"destination": "/core-workflows/working-with-files"
+		},
+		{
+			"source": "/features/at-mentions/terminal-mentions",
+			"destination": "/core-workflows/working-with-files"
+		},
+		{
+			"source": "/features/at-mentions/problem-mentions",
+			"destination": "/core-workflows/working-with-files"
+		},
+		{
+			"source": "/features/at-mentions/git-mentions",
+			"destination": "/core-workflows/working-with-files"
+		},
+		{
+			"source": "/features/at-mentions/url-mentions",
+			"destination": "/core-workflows/working-with-files"
+		},
+		{
+			"source": "/features/drag-and-drop",
+			"destination": "/core-workflows/working-with-files"
+		},
+		{
+			"source": "/features/yolo-mode",
+			"destination": "/features/auto-approve"
+		},
+		{
+			"source": "/features/forgeos-rules",
+			"destination": "/customization/forgeos-rules"
+		},
+		{
+			"source": "/features/forgeos-rules/overview",
+			"destination": "/customization/forgeos-rules"
+		},
+		{
+			"source": "/features/forgeos-rules/conditional-rules",
+			"destination": "/customization/forgeos-rules"
+		},
+		{
+			"source": "/features/commands-and-shortcuts/overview",
+			"destination": "/core-workflows/using-commands"
+		},
+		{
+			"source": "/features/commands-and-shortcuts/code-commands",
+			"destination": "/core-workflows/using-commands"
+		},
+		{
+			"source": "/features/commands-and-shortcuts/terminal-integration",
+			"destination": "/core-workflows/using-commands"
+		},
+		{
+			"source": "/features/commands-and-shortcuts/git-integration",
+			"destination": "/core-workflows/using-commands"
+		},
+		{
+			"source": "/features/commands-and-shortcuts/keyboard-shortcuts",
+			"destination": "/core-workflows/using-commands"
+		},
+		{
+			"source": "/features/slash-commands/new-task",
+			"destination": "/core-workflows/using-commands"
+		},
+		{
+			"source": "/exploring-forgeoss-tools/forgeos-tools-guide",
+			"destination": "/tools-reference/all-forgeos-tools"
+		},
+		{
+			"source": "/exploring-forgeoss-tools/new-task-tool",
+			"destination": "/tools-reference/all-forgeos-tools"
+		},
+		{
+			"source": "/exploring-forgeoss-tools/remote-browser-support",
+			"destination": "/tools-reference/all-forgeos-tools"
+		},
+		{
+			"source": "/mcp/adding-mcp-servers-from-github",
+			"destination": "/mcp/mcp-overview"
+		},
+		{
+			"source": "/mcp/configuring-mcp-servers",
+			"destination": "/mcp/mcp-overview"
+		},
+		{
+			"source": "/more-info/telemetry",
+			"destination": "/enterprise-solutions/monitoring/telemetry"
+		},
+		{
+			"source": "/enterprise-solutions/configure-AWS-Bedrock-Admin",
+			"destination": "/enterprise-solutions/configuration/remote-configuration/aws-bedrock/admin-configuration"
+		},
+		{
+			"source": "/enterprise-solutions/configure-AWS-Bedrock-Member",
+			"destination": "/enterprise-solutions/configuration/remote-configuration/aws-bedrock/member-configuration"
+		},
+		{
+			"source": "/enterprise-solutions/configure-workOS-authkit",
+			"destination": "/enterprise-solutions/onboarding"
+		},
+		{
+			"source": "/enterprise-solutions/Onboarding your Organization",
+			"destination": "/enterprise-solutions/onboarding"
+		},
+		{
+			"source": "/enterprise-solutions/team-management/overview",
+			"destination": "/enterprise-solutions/team-management/managing-members"
+		},
+		{
+			"source": "/enterprise-solutions/team-management/roles-and-permissions",
+			"destination": "/enterprise-solutions/team-management/managing-members"
+		},
+		{
+			"source": "/features/customization/opening-forgeos-in-sidebar",
+			"destination": "/usage/ide#move-forgeos-to-the-right-sidebar"
+		},
+		{
+			"source": "/prompting/prompt-engineering-guide/forgeosignore-file-guide",
+			"destination": "/customization/forgeosignore"
+		},
+		{
+			"source": "/getting-started/selecting-your-model",
+			"destination": "/getting-started/authorizing-with-forgeos"
+		},
+		{
+			"source": "/model-config/model-comparison",
+			"destination": "/getting-started/forgeos-provider"
+		},
+		{
+			"source": "/troubleshooting/terminal-integration-guide",
+			"destination": "/core-workflows/using-commands"
+		},
+		{
+			"source": "/features/slash-commands/deep-planning",
+			"destination": "/core-workflows/using-commands#deep-planning"
+		},
+		{
+			"source": "/features/slash-commands/smol",
+			"destination": "/core-workflows/using-commands#smol"
+		},
+		{
+			"source": "/features/slash-commands/new-rule",
+			"destination": "/core-workflows/using-commands#newrule"
+		},
+		{
+			"source": "/features/memory-bank",
+			"destination": "/best-practices/memory-bank"
+		},
+		{
+			"source": "/features/focus-chain",
+			"destination": "/core-workflows/using-commands#deep-planning"
+		},
+		{
+			"source": "/features/skills",
+			"destination": "/customization/skills"
+		},
+		{
+			"source": "/api/reference",
+			"destination": "/api/overview"
+		},
+		{
+			"source": "/cli/overview",
+			"destination": "/usage/cli-overview"
+		},
+		{
+			"source": "/kanban/overview",
+			"destination": "/usage/kanban"
+		},
+		{
+			"source": "/kanban/getting-started",
+			"destination": "/usage/kanban"
+		},
+		{
+			"source": "/kanban/features",
+			"destination": "/usage/kanban"
+		},
+		{
+			"source": "/features/background-edit",
+			"destination": "/features/auto-approve"
+		},
+		{
+			"source": "/features/worktrees",
+			"destination": "/usage/ide"
+		},
+		{
+			"source": "/cli/getting-started",
+			"destination": "/usage/cli-overview"
+		},
+		{
+			"source": "/cli/installation",
+			"destination": "/getting-started/installing-forgeos"
+		},
+		{
+			"source": "/cli/three-core-flows",
+			"destination": "/usage/cli-overview#headless-mode"
+		},
+		{
+			"source": "/forgeos-cli/getting-started",
+			"destination": "/usage/cli-overview"
+		},
+		{
+			"source": "/forgeos-cli/installation",
+			"destination": "/getting-started/installing-forgeos"
+		},
+		{
+			"source": "/forgeos-cli/three-core-flows",
+			"destination": "/usage/cli-overview#headless-mode"
+		},
+		{
+			"source": "/forgeos-cli/connectors",
+			"destination": "/cli/connectors"
+		},
+		{
+			"source": "/forgeos-cli/scheduling",
+			"destination": "/cli/scheduling"
+		},
+		{
+			"source": "/forgeos-cli/mcp-servers",
+			"destination": "/mcp/mcp-overview"
+		},
+		{
+			"source": "/cli/mcp-servers",
+			"destination": "/mcp/mcp-overview"
+		},
+		{
+			"source": "/forgeos-cli/agent-teams",
+			"destination": "/cli/agent-teams"
+		},
+		{
+			"source": "/forgeos-cli/cli-reference",
+			"destination": "/cli/cli-reference"
+		},
+		{
+			"source": "/forgeos-cli/configuration",
+			"destination": "/getting-started/config"
+		},
+		{
+			"source": "/provider-config/claude-code",
+			"destination": "/provider-config/anthropic"
+		},
+		{
+			"source": "/provider-config/openai-codex",
+			"destination": "/provider-config/openai"
+		},
+		{
+			"source": "/cli/configuration",
+			"destination": "/getting-started/config"
+		},
+		{
+			"source": "/forgeos-cli/acp-editor-integrations",
+			"destination": "/usage/acp"
+		},
+		{
+			"source": "/forgeos-cli/samples/github-issue-rca",
+			"destination": "/cli/samples/github-issue-rca"
+		},
+		{
+			"source": "/forgeos-cli/samples/github-integration",
+			"destination": "/cli/samples/github-integration"
+		},
+		{
+			"source": "/forgeos-cli/samples/github-pr-review",
+			"destination": "/cli/samples/github-pr-review"
+		},
+		{
+			"source": "/forgeos-cli/samples/model-orchestration",
+			"destination": "/cli/samples/model-orchestration"
+		},
+		{
+			"source": "/forgeos-sdk/overview",
+			"destination": "/sdk/overview"
+		},
+		{
+			"source": "/forgeos-sdk/quickstart",
+			"destination": "/sdk/guides/building-an-agent"
+		},
+		{
+			"source": "/sdk/quickstart",
+			"destination": "/sdk/guides/building-an-agent"
+		},
+		{
+			"source": "/forgeos-sdk/examples",
+			"destination": "/sdk/guides/building-an-agent"
+		},
+		{
+			"source": "/forgeos-sdk/agents",
+			"destination": "/sdk/forgeoscore"
+		},
+		{
+			"source": "/forgeos-sdk/sessions",
+			"destination": "/sdk/forgeoscore"
+		},
+		{
+			"source": "/forgeos-sdk/tools",
+			"destination": "/sdk/tools"
+		},
+		{
+			"source": "/forgeos-sdk/streaming-and-events",
+			"destination": "/sdk/events"
+		},
+		{
+			"source": "/forgeos-sdk/plugins",
+			"destination": "/sdk/plugins"
+		},
+		{
+			"source": "/forgeos-sdk/hooks",
+			"destination": "/sdk/plugins"
+		},
+		{
+			"source": "/forgeos-sdk/model-providers",
+			"destination": "/sdk/model-providers"
+		},
+		{
+			"source": "/forgeos-sdk/guides/building-an-agent",
+			"destination": "/sdk/guides/building-an-agent"
+		},
+		{
+			"source": "/forgeos-sdk/guides/creating-custom-tools",
+			"destination": "/sdk/guides/creating-custom-tools"
+		},
+		{
+			"source": "/forgeos-sdk/guides/writing-plugins",
+			"destination": "/sdk/guides/writing-plugins"
+		},
+		{
+			"source": "/forgeos-sdk/guides/permission-handling",
+			"destination": "/sdk/guides/permission-handling"
+		},
+		{
+			"source": "/forgeos-sdk/guides/scheduled-agents",
+			"destination": "/sdk/guides/scheduled-agents"
+		},
+		{
+			"source": "/forgeos-sdk/guides/multi-agent-teams",
+			"destination": "/sdk/guides/multi-agent-teams"
+		},
+		{
+			"source": "/forgeos-sdk/guides/connectors",
+			"destination": "/cli/connectors"
+		},
+		{
+			"source": "/sdk/guides/connectors",
+			"destination": "/cli/connectors"
+		},
+		{
+			"source": "/forgeos-sdk/guides/going-to-production",
+			"destination": "/sdk/guides/going-to-production"
+		},
+		{
+			"source": "/forgeos-sdk/architecture/overview",
+			"destination": "/sdk/architecture/overview"
+		},
+		{
+			"source": "/forgeos-sdk/architecture/hub-spoke",
+			"destination": "/sdk/architecture/hub-spoke"
+		},
+		{
+			"source": "/forgeos-sdk/architecture/packages",
+			"destination": "/sdk/architecture/overview"
+		},
+		{
+			"source": "/forgeos-sdk/reference/forgeos-core",
+			"destination": "/sdk/reference/forgeos-core"
+		},
+		{
+			"source": "/forgeos-sdk/reference/agent",
+			"destination": "/sdk/reference/agent"
+		},
+		{
+			"source": "/forgeos-sdk/reference/gateway",
+			"destination": "/sdk/reference/gateway"
+		},
+		{
+			"source": "/forgeos-sdk/reference/tools-api",
+			"destination": "/sdk/reference/tools-api"
+		},
+		{
+			"source": "/forgeos-sdk/reference/events",
+			"destination": "/sdk/reference/events"
+		},
+		{
+			"source": "/forgeos-sdk/reference/types",
+			"destination": "/sdk/reference/types"
+		},
+		{
+			"source": "/forgeos-sdk/extensions",
+			"destination": "/sdk/plugins"
+		},
+		{
+			"source": "/sdk/guides/writing-extensions",
+			"destination": "/sdk/guides/writing-plugins"
+		},
+		{
+			"source": "/forgeos-sdk/guides/writing-extensions",
+			"destination": "/sdk/guides/writing-plugins"
+		},
+		{
+			"source": "/mcp/mcp-marketplace",
+			"destination": "/mcp/mcp-overview"
+		},
+		{
+			"source": "/mcp/adding-and-configuring-servers",
+			"destination": "/mcp/mcp-overview"
+		},
+		{
+			"source": "/mcp/mcp-server-development-protocol",
+			"destination": "/mcp/mcp-overview"
+		},
+		{
+			"source": "/mcp/connecting-to-a-remote-server",
+			"destination": "/mcp/mcp-overview"
+		},
+		{
+			"source": "/mcp/mcp-transport-mechanisms",
+			"destination": "/mcp/mcp-overview"
+		},
+		{
+			"source": "/sdk/agents",
+			"destination": "/sdk/forgeoscore"
+		},
+		{
+			"source": "/sdk/sessions",
+			"destination": "/sdk/forgeoscore"
+		},
+		{
+			"source": "/sdk/streaming-and-events",
+			"destination": "/sdk/events"
+		},
+		{
+			"source": "/sdk/hooks",
+			"destination": "/sdk/plugins"
+		},
+		{
+			"source": "/sdk/extensions",
+			"destination": "/sdk/plugins"
+		},
+		{
+			"source": "/sdk/examples",
+			"destination": "/sdk/guides/building-an-agent"
+		},
+		{
+			"source": "/forgeos-cli/interactive-mode",
+			"destination": "/usage/cli-overview"
+		},
+		{
+			"source": "/forgeos-cli/overview",
+			"destination": "/usage/cli-overview"
+		},
+		{
+			"source": "/forgeos-cli/samples/overview",
+			"destination": "/usage/cli-overview"
+		},
+		{
+			"source": "/forgeos-cli/samples/worktree-workflows",
+			"destination": "/usage/cli-overview"
+		},
+		{
+			"source": "/contributing/doc-templates",
+			"destination": "/forgeos-overview"
+		},
+		{
+			"source": "/contributing/documentation-guide",
+			"destination": "/forgeos-overview"
+		},
+		{
+			"source": "/customization/workflows",
+			"destination": "/customization/forgeos-rules"
+		},
+		{
+			"source": "/features/web-tools",
+			"destination": "/tools-reference/all-forgeos-tools"
+		},
+		{
+			"source": "/getting-started/quick-start",
+			"destination": "/forgeos-overview"
+		},
+		{
+			"source": "/getting-started/what-is-forgeos",
+			"destination": "/forgeos-overview"
+		},
+		{
+			"source": "/home",
+			"destination": "/forgeos-overview"
+		},
+		{
+			"source": "/provider-config/aihubmix",
+			"destination": "/provider-config/other-30-plus-providers#aihubmix"
+		},
+		{
+			"source": "/provider-config/asksage",
+			"destination": "/provider-config/other-30-plus-providers#asksage"
+		},
+		{
+			"source": "/provider-config/baseten",
+			"destination": "/provider-config/other-30-plus-providers#baseten"
+		},
+		{
+			"source": "/provider-config/cerebras",
+			"destination": "/provider-config/other-30-plus-providers#cerebras"
+		},
+		{
+			"source": "/provider-config/dify",
+			"destination": "/provider-config/other-30-plus-providers#difyai"
+		},
+		{
+			"source": "/provider-config/doubao",
+			"destination": "/provider-config/other-30-plus-providers#doubao"
+		},
+		{
+			"source": "/provider-config/fireworks",
+			"destination": "/provider-config/other-30-plus-providers#fireworks-ai"
+		},
+		{
+			"source": "/provider-config/gcp-vertex-ai",
+			"destination": "/provider-config/other-30-plus-providers#gcp-vertex-ai"
+		},
+		{
+			"source": "/provider-config/groq",
+			"destination": "/provider-config/other-30-plus-providers#groq"
+		},
+		{
+			"source": "/provider-config/hicap",
+			"destination": "/provider-config/other-30-plus-providers#hicap"
+		},
+		{
+			"source": "/provider-config/huawei-cloud-maas",
+			"destination": "/provider-config/other-30-plus-providers#huawei-cloud-maas"
+		},
+		{
+			"source": "/provider-config/huggingface",
+			"destination": "/provider-config/other-30-plus-providers#hugging-face"
+		},
+		{
+			"source": "/provider-config/litellm-and-forgeos-using-codestral",
+			"destination": "/provider-config/openai-compatible"
+		},
+		{
+			"source": "/provider-config/mistral-ai",
+			"destination": "/provider-config/other-30-plus-providers#mistral"
+		},
+		{
+			"source": "/provider-config/moonshot",
+			"destination": "/provider-config/other-30-plus-providers#moonshot"
+		},
+		{
+			"source": "/provider-config/nebius",
+			"destination": "/provider-config/other-30-plus-providers#nebius-ai-studio"
+		},
+		{
+			"source": "/provider-config/nousresearch",
+			"destination": "/provider-config/other-30-plus-providers#nous-research"
+		},
+		{
+			"source": "/provider-config/oracle-code-assist",
+			"destination": "/provider-config/other-30-plus-providers#oracle-code-assist"
+		},
+		{
+			"source": "/provider-config/qwen-code",
+			"destination": "/provider-config/other-30-plus-providers#qwen-code"
+		},
+		{
+			"source": "/provider-config/requesty",
+			"destination": "/provider-config/other-30-plus-providers#requesty"
+		},
+		{
+			"source": "/provider-config/sambanova",
+			"destination": "/provider-config/other-30-plus-providers#sambanova"
+		},
+		{
+			"source": "/provider-config/sap-aicore",
+			"destination": "/provider-config/other-30-plus-providers#sap-ai-core"
+		},
+		{
+			"source": "/provider-config/together",
+			"destination": "/provider-config/other-30-plus-providers#together"
+		},
+		{
+			"source": "/provider-config/vercel-ai-gateway",
+			"destination": "/provider-config/other-30-plus-providers#vercel-ai-gateway"
+		},
+		{
+			"source": "/provider-config/vscode-language-model-api",
+			"destination": "/provider-config/other-30-plus-providers#vs-code-language-model-api"
+		},
+		{
+			"source": "/provider-config/xai-grok",
+			"destination": "/provider-config/other-30-plus-providers#xai-grok"
+		},
+		{
+			"source": "/tools-reference/browser-automation",
+			"destination": "/tools-reference/all-forgeos-tools"
+		},
+		{
+			"source": "/troubleshooting/task-history-recovery",
+			"destination": "/core-workflows/task-management"
+		},
+		{
+			"source": "/troubleshooting/terminal-quick-fixes",
+			"destination": "/core-workflows/using-commands"
+		}
+	],
+	"search": {
+		"prompt": "Search ForgeOS documentation..."
+	}
+}

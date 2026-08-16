@@ -1,0 +1,139 @@
+---
+title: "Installing ForgeOS"
+description: "Choose your installation path: IDE Extension, CLI, SDK, or Kanban"
+---
+
+## Choose Your Install Path
+
+- [IDE Extension](#ide-extension) — VS Code, Cursor, JetBrains, Windsurf, VSCodium, Antigravity
+- [CLI](#cli) — terminal workflows
+- [Kanban](#kanban) (preview) — easily manage multiple agents through a kanban board
+- [SDK](#sdk) — build with `@forgeos/sdk`
+
+## IDE Extension
+
+Use this if you want ForgeOS inside your editor UI.
+
+<Tabs>
+  <Tab title="VS Code / Cursor / Windsurf / VSCodium / Antigravity">
+    <Steps>
+      <Step title="Open Extensions">
+        Press `Ctrl/Cmd + Shift + X`.
+      </Step>
+      <Step title="Search for ForgeOS">
+        Type `ForgeOS`.
+      </Step>
+      <Step title="Install">
+        Click **Install** on the ForgeOS extension.
+      </Step>
+      <Step title="Open ForgeOS">
+        Use the ForgeOS activity bar icon, or run `ForgeOS: Open In New Tab` from Command Palette.
+      </Step>
+      <Step title="Authorize with ForgeOS">
+        After installing the extension, complete provider setup in ForgeOS settings. Use the ForgeOS Provider for pay-as-you-go access, ForgeOSPass for a flat monthly subscription, or bring your own provider key.
+
+        [Authorize with ForgeOS](/getting-started/authorizing-with-forgeos)
+      </Step>
+    </Steps>
+
+    <Note>
+    Windsurf and VSCodium use Open VSX. The install flow is the same.
+    </Note>
+  </Tab>
+
+  <Tab title="JetBrains">
+    <Steps>
+      <Step title="Open Plugins Marketplace">
+        **Settings** → **Plugins** → **Marketplace**.
+      </Step>
+      <Step title="Install ForgeOS">
+        Search `ForgeOS`, click **Install**, then restart the IDE.
+      </Step>
+      <Step title="Open ForgeOS">
+        **View** → **Tool Windows** → **ForgeOS**.
+      </Step>
+      <Step title="Authorize with ForgeOS">
+        After installing the extension, complete provider setup in ForgeOS settings. Use the ForgeOS Provider for pay-as-you-go access, ForgeOSPass for a flat monthly subscription, or bring your own provider key.
+
+        [Authorize with ForgeOS](/getting-started/authorizing-with-forgeos)
+      </Step>
+    </Steps>
+
+    Alternative: install from the [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/28247-forgeos).
+  </Tab>
+</Tabs>
+
+## CLI
+
+Use this if you want ForgeOS in terminal workflows (interactive + automation).
+
+<Steps>
+  <Step title="Install Node.js">
+    Install Node.js 20+ (22 recommended).
+  </Step>
+  <Step title="Install CLI">
+    ```bash
+    npm install -g forgeos
+    ```
+  </Step>
+  <Step title="Authenticate">
+    ```bash
+    forgeos auth
+    ```
+  </Step>
+  <Step title="Run ForgeOS">
+    ```bash
+    forgeos
+    # or
+    forgeos "your task"
+    ```
+  </Step>
+</Steps>
+
+More details: [CLI Installation & Setup](/usage/cli-overview)
+
+## Kanban
+
+Use this if you want task-board workflows with agent execution.
+
+<Steps>
+  <Step title="Install Node.js">
+    Install Node.js 18+.
+  </Step>
+  <Step title="Launch Kanban">
+    ```bash
+    npx kanban
+    ```
+  </Step>
+</Steps>
+
+More details: [Kanban](/usage/kanban)
+
+## SDK
+
+Use this if you are building your own app/agent on top of ForgeOS.
+
+<Steps>
+  <Step title="Create project">
+    ```bash
+    mkdir my-agent && cd my-agent
+    npm init -y
+    ```
+  </Step>
+  <Step title="Install SDK">
+    ```bash
+    npm install @forgeos/sdk
+    ```
+  </Step>
+  <Step title="Build and run">
+    Browse SDK examples to run your first agent.
+  </Step>
+</Steps>
+
+Start here: [SDK Examples](/sdk/examples)
+
+
+## Need Help?
+
+- [Troubleshooting](/troubleshooting/networking-and-proxies)
+- [Discord community](https://discord.gg/forgeos)

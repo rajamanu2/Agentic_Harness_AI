@@ -1,0 +1,19 @@
+.forgeos-ui-session-status {
+	--forgeos-ui-session-status-color: var(--neutral-a4);
+}
+
+.forgeos-ui-session-status__dot {
+	background: var(--forgeos-ui-session-status-color);
+}
+
+.forgeos-ui-session-status--neutral .forgeos-ui-session-status__dot {
+	visibility: hidden;
+}
+
+.forgeos-ui-session-status--running {
+	--forgeos-ui-session-status-color: var(--primary);
+}
+
+.forgeos-ui-session-status--error {
+	--forgeos-ui-session-status-color: var(--error-text);
+}

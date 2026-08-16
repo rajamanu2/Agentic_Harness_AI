@@ -1,0 +1,118 @@
+name: ForgeOS Windows Release
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Type publish to create the GitHub release
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-verify:
+    runs-on: windows-2025
+    env:
+      RELEASE_VERSION: 0.0.13
+      RUNTIME_ROOT: forgeos-platform/apps/examples/desktop-app/src-tauri/resources/forgeos-runtime
+      TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+      TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+      HAS_WINDOWS_SIGNING: ${{ secrets.WINDOWS_SIGNING_PFX != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: "25"
+          cache: maven
+
+      - name: Build and test universal engine
+        working-directory: agentic-harness
+        shell: pwsh
+        run: |
+          npm ci
+          npm run test:adapters
+          npm run build
+
+      - name: Package control plane
+        shell: pwsh
+        run: .\backend\mvnw.cmd clean package
+
+      - name: Prepare self-contained auxiliary runtime
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNTIME_ROOT/engine" | Out-Null
+          New-Item -ItemType Directory -Force "$env:RUNTIME_ROOT/control-plane" | Out-Null
+          bun build agentic-harness/server.mjs --compile --outfile "$env:RUNTIME_ROOT/engine/forgeos-engine.exe"
+          Copy-Item agentic-harness/dist "$env:RUNTIME_ROOT/engine/dist" -Recurse -Force
+          Copy-Item backend/target/salesforce-command-center-0.0.1-SNAPSHOT.jar "$env:RUNTIME_ROOT/control-plane/forgeos-control-plane.jar" -Force
+          jlink --module-path "$env:JAVA_HOME/jmods" --add-modules ALL-MODULE-PATH --strip-debug --no-header-files --no-man-pages --compress zip-6 --output "$env:RUNTIME_ROOT/control-plane/jre-all"
+
+      - name: Install ForgeOS workspace
+        working-directory: forgeos-platform
+        run: bun install --frozen-lockfile
+
+      - name: Native checks
+        working-directory: forgeos-platform/apps/examples/desktop-app/src-tauri
+        run: |
+          cargo fmt --check
+          cargo check --release
+
+      - name: Build installers
+        working-directory: forgeos-platform
+        run: bun -F @forgeos/code build:binary
+
+      - name: Authenticode sign when certificate is configured
+        if: env.HAS_WINDOWS_SIGNING == 'true'
+        shell: pwsh
+        env:
+          WINDOWS_SIGNING_PFX: ${{ secrets.WINDOWS_SIGNING_PFX }}
+          WINDOWS_SIGNING_PASSWORD: ${{ secrets.WINDOWS_SIGNING_PASSWORD }}
+        run: |
+          $pfx = Join-Path $env:RUNNER_TEMP "forgeos-signing.pfx"
+          [IO.File]::WriteAllBytes($pfx, [Convert]::FromBase64String($env:WINDOWS_SIGNING_PFX))
+          $artifacts = @(
+            "forgeos-platform/apps/examples/desktop-app/src-tauri/target/release/forgeos.exe",
+            "forgeos-platform/apps/examples/desktop-app/src-tauri/target/release/bundle/msi/ForgeOS_${env:RELEASE_VERSION}_x64_en-US.msi",
+            "forgeos-platform/apps/examples/desktop-app/src-tauri/target/release/bundle/nsis/ForgeOS_${env:RELEASE_VERSION}_x64-setup.exe"
+          )
+          foreach ($artifact in $artifacts) {
+            & signtool sign /fd SHA256 /td SHA256 /tr http://timestamp.digicert.com /f $pfx /p $env:WINDOWS_SIGNING_PASSWORD $artifact
+            & signtool verify /pa /v $artifact
+          }
+
+      - name: Pack release and hashes
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force release-ci | Out-Null
+          Copy-Item forgeos-platform/apps/examples/desktop-app/src-tauri/target/release/bundle/msi/*.msi release-ci/
+          Copy-Item forgeos-platform/apps/examples/desktop-app/src-tauri/target/release/bundle/nsis/*.exe release-ci/
+          Copy-Item forgeos-platform/apps/examples/desktop-app/src-tauri/target/release/forgeos.exe release-ci/
+          Get-FileHash release-ci/* -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  $([IO.Path]::GetFileName($_.Path))" } | Set-Content release-ci/SHA256SUMS.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forgeos-windows-${{ env.RELEASE_VERSION }}
+          path: release-ci/
+          if-no-files-found: error
+
+      - name: Publish confirmed release
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.publish == 'publish' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: desktop-v${{ env.RELEASE_VERSION }}
+          name: ForgeOS ${{ env.RELEASE_VERSION }}
+          draft: true
+          files: release-ci/*

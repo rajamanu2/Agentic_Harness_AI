@@ -1,0 +1,19 @@
+.forgeos-ui-agent-quick-actions,
+.forgeos-ui-agent-quick-actions__item {
+	box-sizing: border-box;
+	border-style: solid;
+}
+
+.forgeos-ui-agent-quick-actions__item {
+	font: inherit;
+}
+
+.forgeos-ui-agent-quick-actions__item:hover:not(:disabled) {
+	background: color-mix(in oklab, var(--background) 55%, transparent);
+}
+
+.forgeos-ui-agent-quick-actions__item:hover:not(:disabled)
+	.forgeos-ui-agent-quick-actions__arrow {
+	background: var(--primary);
+	color: var(--primary-foreground);
+}

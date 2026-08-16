@@ -1,0 +1,9 @@
+{
+	"shortcuts": [
+		{
+			"label": "Build & Link CLI",
+			"command": "bun -F @forgeos/cli build && bun -F @forgeos/cli link",
+			"icon": "play"
+		}
+	]
+}

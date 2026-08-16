@@ -1,0 +1,35 @@
+{
+	"extends": "../../../sdk/packages/tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"target": "ESNext",
+		"paths": {
+			"@forgeos/agents": ["../../../sdk/packages/agents/src/index.ts"],
+			"@forgeos/agents/*": [
+				"../../../sdk/packages/agents/src/*",
+				"../../../sdk/packages/agents/src/*/index.ts"
+			],
+			"@forgeos/core": ["../../../sdk/packages/core/src/index.ts"],
+			"@forgeos/core/hub/daemon-entry": [
+				"../../../sdk/packages/core/src/hub/daemon/entry.ts"
+			],
+			"@forgeos/core/*": [
+				"../../../sdk/packages/core/src/*",
+				"../../../sdk/packages/core/src/*/index.ts"
+			],
+			"@forgeos/llms": ["../../../sdk/packages/llms/src/index.ts"],
+			"@forgeos/shared": ["../../../sdk/packages/shared/src/index.ts"],
+			"@forgeos/shared/storage": [
+				"../../../sdk/packages/shared/src/storage/index.ts"
+			],
+			"@forgeos/shared/db": ["../../../sdk/packages/shared/src/db/index.ts"],
+			"@forgeos/shared/*": [
+				"../../../sdk/packages/shared/src/*",
+				"../../../sdk/packages/shared/src/*/index.ts"
+			]
+		}
+	},
+	"include": ["sidecar/**/*.ts"]
+}

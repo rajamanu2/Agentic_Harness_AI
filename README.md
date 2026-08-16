@@ -1,6 +1,10 @@
-# AI Salesforce Command Center
+# ForgeOS
 
-Desktop-style AI Salesforce Command Center for Jira, in-app browsing, Codex runs, Salesforce org changes, org scanning, logs, deployment validation, GLM-backed planning, Harness release orchestration, and PR handoff.
+An extensible agent operating system built on the ForgeOS platform stack, with repository intelligence, durable learning, policy-controlled execution, evidence chains, Jira, Salesforce, Harness, provider routing, and desktop workflows.
+
+The complete downstream platform is in `forgeos-platform/`. Build and operation instructions are documented in [FORGEOS_BUILD.md](FORGEOS_BUILD.md); the service bridge is documented in [FORGEOS_AGENTICA_INTEGRATION.md](FORGEOS_AGENTICA_INTEGRATION.md).
+
+Verified Windows binaries are available in `release/`; see [BUILD_VERIFICATION.md](BUILD_VERIFICATION.md) for build coverage and SHA-256 hashes.
 
 ## Modules
 
