@@ -14,6 +14,7 @@ import {
 	initializeSessionManager,
 } from "./context";
 import { createDesktopObservability } from "./observability";
+import { prewarmQualityLocalModel } from "./local-model-prewarm";
 import { resolveWorkspaceRoot } from "./paths";
 import { startServer } from "./server";
 import { ensureLoginShellPath } from "./shell-path";
@@ -132,6 +133,9 @@ async function main() {
 	observability.logger.log("Desktop sidecar ready", {
 		port,
 		mode: SIDECAR_MODE,
+	});
+	void prewarmQualityLocalModel().then((ready) => {
+		observability.logger.log("ForgeOS quality local model prewarm", { ready });
 	});
 
 	// Another ForgeOS installation (e.g. an updated CLI) can replace the shared

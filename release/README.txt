@@ -17,6 +17,10 @@ Bun, Rust, Java, or the source repository.
 New sessions use the free local Ollama qwen2.5-coder:7b model by default. This
 does not require a hosted-provider account, API key, quota, or authorization.
 Ollama must be running with that model installed. Hosted providers remain optional.
+ForgeOS preloads the quality-first 7B model during desktop startup and keeps it
+resident to avoid repeated cold-load delays. Long chat code wraps vertically.
+When an agent starts a localhost web application and reports its URL, ForgeOS
+opens it in the integrated live preview with reload and external-open controls.
 External systems such as Salesforce, AWS, n8n, and Kubernetes use their own
 authenticated CLI or runtime connection. ForgeOS does not embed credentials.
 ForgeOS connection discovery reports readiness and available targets without
@@ -26,7 +30,7 @@ The current local artifacts are unsigned. Windows may display a publisher warnin
 Public distribution requires a Windows code-signing certificate and a signed update feed.
 
 SHA-256:
-F24F5B155C315C9AFA93CEB5F2E616F647A8B0E86B9B2D44038339A3472E0EE1  ForgeOS_0.0.13_x64_en-US.msi
-373A3B96B90D4C32AA8FBEFD2D77BE58888A2E629C0674B6621C4F119F4600AE  ForgeOS_0.0.13_x64-setup.exe
-F6639AD6B8FE2C60509BAD87CB589263CAD5D7A0BD72321F9242215DD12D30C0  forgeos.exe
+EB07E279D0C5AE764545411987BA9538C01331E61B43FF220429DE8E706C5616  ForgeOS_0.0.13_x64_en-US.msi
+9C8042659CB75FB4AA9BEB7D5A700DF0A3916BDE60A442ED6686ED8B96E634E1  ForgeOS_0.0.13_x64-setup.exe
+D0315F33C295C1F187943022D0EF767193E72E0C479716B2E8A6034648794C9F  forgeos.exe
 E4B150ED689A1D44A790AEFEEA3880D32BB7DC51D8256386A3691BA04648CF70  runtime/forgeos-control-plane.jar

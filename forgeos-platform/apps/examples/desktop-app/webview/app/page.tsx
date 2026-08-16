@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ChatInputBar } from "@/components/views/chat/chat-input-bar";
 import { ChatMessages } from "@/components/views/chat/chat-messages";
+import { LivePreview } from "@/components/views/chat/live-preview";
 import { WelcomeScreen } from "@/components/views/chat/welcome-chat";
 import { WelcomeSetupNotice } from "@/components/views/chat/welcome-setup-notice";
 import type { OnboardingStep } from "@/components/views/onboarding/onboarding-view";
@@ -65,6 +66,7 @@ import {
 	ONBOARDING_RESET_EVENT,
 } from "@/lib/onboarding";
 import { isProviderConnected } from "@/lib/provider-connection";
+import { findLatestLocalPreviewUrl } from "@/lib/local-preview";
 import {
 	fetchProviderCatalog,
 	readProviderCatalogSnapshot,
@@ -589,6 +591,8 @@ function ChatThreadPane({
 	const [isDraggingFiles, setIsDraggingFiles] = useState(false);
 	const dragDepthRef = useRef(0);
 	const [showDiffView, setShowDiffView] = useState(false);
+	const [showLivePreview, setShowLivePreview] = useState(false);
+	const autoOpenedPreviewRef = useRef<string | null>(null);
 	const [deletingSession, setDeletingSession] = useState(false);
 	const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 	const [renamingSession, setRenamingSession] = useState(false);
@@ -1371,6 +1375,17 @@ function ChatThreadPane({
 	const displayedError = hideDeletedSessionUi ? null : error;
 	const displayedStatus = hideDeletedSessionUi ? "idle" : status;
 	const displayedSessionId = hideDeletedSessionUi ? null : sessionId;
+	const localPreviewUrl = useMemo(
+		() => findLatestLocalPreviewUrl(displayedMessages),
+		[displayedMessages],
+	);
+	useEffect(() => {
+		if (localPreviewUrl && autoOpenedPreviewRef.current !== localPreviewUrl) {
+			autoOpenedPreviewRef.current = localPreviewUrl;
+			setShowDiffView(false);
+			setShowLivePreview(true);
+		}
+	}, [localPreviewUrl]);
 	const displayedIsSwitching = hideDeletedSessionUi
 		? false
 		: isHydratingSession;
@@ -1580,7 +1595,12 @@ function ChatThreadPane({
 							diff={headerDiff}
 							onDeleteSession={requestDeleteSession}
 							onNewThread={onNewThread}
-							onOpenDiff={handleOpenDiff}
+								onOpenDiff={handleOpenDiff}
+								onOpenPreview={() => {
+									setShowDiffView(false);
+									setShowLivePreview(true);
+								}}
+								previewAvailable={Boolean(localPreviewUrl)}
 							onRenameTitle={handleRenameTitle}
 							renamingTitle={renamingSession}
 							status={status}
@@ -1591,7 +1611,12 @@ function ChatThreadPane({
 				<WelcomeScreen
 					active={isWelcomeState}
 					body={
-						showDiffView ? (
+						showLivePreview && localPreviewUrl ? (
+							<LivePreview
+								onClose={() => setShowLivePreview(false)}
+								url={localPreviewUrl}
+							/>
+						) : showDiffView ? (
 							<DiffView
 								cwd={config.cwd || config.workspaceRoot}
 								fileDiffs={fileDiffs}

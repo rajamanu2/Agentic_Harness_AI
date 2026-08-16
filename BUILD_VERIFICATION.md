@@ -36,13 +36,16 @@ Verified on Windows x64 on 2026-08-16.
 - Source and filename scan found no legacy product name outside legally retained Apache license attribution
 - New sessions default to the locally installed Ollama `qwen2.5-coder:7b` model, avoiding hosted-provider quota and authorization requirements
 - Keyless Ollama validation passed with a live local response: `FORGEOS_KEYLESS_OK`
+- Quality-first local model prewarms in the background and remains resident; measured warm response was 1.18 seconds at 20.5 tokens/second on the verification machine
+- Long chat code and JSON wrap downward without horizontal message scrolling; 96 chat rendering tests passed
+- Localhost development URLs are detected and opened in an integrated, reloadable ForgeOS live preview; remote URLs are rejected by preview validation
 
 ## Windows release hashes
 
 ```text
-F24F5B155C315C9AFA93CEB5F2E616F647A8B0E86B9B2D44038339A3472E0EE1  ForgeOS_0.0.13_x64_en-US.msi
-373A3B96B90D4C32AA8FBEFD2D77BE58888A2E629C0674B6621C4F119F4600AE  ForgeOS_0.0.13_x64-setup.exe
-F6639AD6B8FE2C60509BAD87CB589263CAD5D7A0BD72321F9242215DD12D30C0  forgeos.exe
+EB07E279D0C5AE764545411987BA9538C01331E61B43FF220429DE8E706C5616  ForgeOS_0.0.13_x64_en-US.msi
+9C8042659CB75FB4AA9BEB7D5A700DF0A3916BDE60A442ED6686ED8B96E634E1  ForgeOS_0.0.13_x64-setup.exe
+D0315F33C295C1F187943022D0EF767193E72E0C479716B2E8A6034648794C9F  forgeos.exe
 E4B150ED689A1D44A790AEFEEA3880D32BB7DC51D8256386A3691BA04648CF70  runtime/forgeos-control-plane.jar
 ```
 

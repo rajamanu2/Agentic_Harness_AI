@@ -10,6 +10,7 @@ import {
 	CornerUpLeft,
 	Loader2,
 	MoreHorizontal,
+	MonitorPlay,
 	Plus,
 	Trash2,
 } from "lucide-react";
@@ -45,6 +46,8 @@ type AgentHeaderProps = {
 	canDeleteSession?: boolean;
 	deletingSession?: boolean;
 	onOpenDiff?: () => void;
+	onOpenPreview?: () => void;
+	previewAvailable?: boolean;
 	showSessionActions?: boolean;
 	status?: ChatSessionStatus;
 	diff?: {
@@ -72,6 +75,8 @@ function AgentHeaderImpl({
 	canDeleteSession,
 	deletingSession,
 	onOpenDiff,
+	onOpenPreview,
+	previewAvailable = false,
 	showSessionActions = true,
 	status,
 	diff,
@@ -226,6 +231,18 @@ function AgentHeaderImpl({
 
 			{showSessionActions ? (
 				<div className="flex shrink-0 items-center gap-2">
+					{previewAvailable ? (
+						<Button
+							aria-label="Open live preview"
+							className="gap-1 text-xs"
+							onClick={onOpenPreview}
+							size="sm"
+							variant="secondary"
+						>
+							<MonitorPlay className="size-4" />
+							Preview
+						</Button>
+					) : null}
 					<AgentActivityStatus
 						activity={agentActivity}
 						agents={agents}

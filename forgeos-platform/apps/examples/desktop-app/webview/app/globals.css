@@ -196,6 +196,7 @@
 }
 
 .forgeos-markdown [data-streamdown="code-block-body"] {
+	overflow-x: hidden;
 	border-radius: 0.5rem;
 	background: var(--card);
 	padding: 0.625rem 0.75rem;
@@ -207,6 +208,15 @@
  * matches the app theme; let the body's --card background show instead. */
 .forgeos-markdown [data-streamdown="code-block-body"] pre {
 	background: transparent;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
+
+.forgeos-markdown [data-streamdown="code-block-body"] code {
+	white-space: inherit;
+	overflow-wrap: inherit;
+	word-break: inherit;
 }
 
 /* The actions overlay's -mt-10 was sized to cover the (now hidden) header
