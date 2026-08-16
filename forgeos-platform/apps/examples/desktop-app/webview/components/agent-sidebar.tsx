@@ -14,6 +14,7 @@ import {
 	Filter,
 	FolderTree,
 	GitFork,
+	KeyRound,
 	Loader2,
 	PanelLeftOpen,
 	Pencil,
@@ -131,6 +132,7 @@ function hubPort(url: string | null): string | null {
 
 const SETTINGS_SECTION_ICONS = {
 	General: SlidersHorizontal,
+	"API Keys": KeyRound,
 	Models: Bot,
 	Channels: Radio,
 	Schedules: Clock3,

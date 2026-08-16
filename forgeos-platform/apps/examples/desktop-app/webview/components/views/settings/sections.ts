@@ -7,6 +7,7 @@
 
 export const SETTINGS_SECTIONS = [
 	"General",
+	"API Keys",
 	"Models",
 	"Channels",
 	"Schedules",

@@ -39,13 +39,15 @@ Verified on Windows x64 on 2026-08-16.
 - Quality-first local model prewarms in the background and remains resident; measured warm response was 1.18 seconds at 20.5 tokens/second on the verification machine
 - Long chat code and JSON wrap downward without horizontal message scrolling; 96 chat rendering tests passed
 - Localhost development URLs are detected and opened in an integrated, reloadable ForgeOS live preview; remote URLs are rejected by preview validation
+- Dedicated API Keys settings tab supports every catalog/custom provider, non-generation dry-run model discovery, and all locally installed Ollama models
+- Opened chat panes remain mounted and subscribed while switching chats or opening Sessions/Settings, so active agent runs continue in the background
 
 ## Windows release hashes
 
 ```text
-EB07E279D0C5AE764545411987BA9538C01331E61B43FF220429DE8E706C5616  ForgeOS_0.0.13_x64_en-US.msi
-9C8042659CB75FB4AA9BEB7D5A700DF0A3916BDE60A442ED6686ED8B96E634E1  ForgeOS_0.0.13_x64-setup.exe
-D0315F33C295C1F187943022D0EF767193E72E0C479716B2E8A6034648794C9F  forgeos.exe
+8F34E35FB5C8779247B2BE4AE1E9AC0B7A84A966AB5537A3A877AF2EE860C359  ForgeOS_0.0.13_x64_en-US.msi
+75569393BF930590C7E23D2B962412D5B2604D628CCB53FF49DCD2E424E44531  ForgeOS_0.0.13_x64-setup.exe
+4AB7B29F7F80BCC293430CCBCB5B6B914B57FA014853864410EA0E7CC43B57AC  forgeos.exe
 E4B150ED689A1D44A790AEFEEA3880D32BB7DC51D8256386A3691BA04648CF70  runtime/forgeos-control-plane.jar
 ```
 

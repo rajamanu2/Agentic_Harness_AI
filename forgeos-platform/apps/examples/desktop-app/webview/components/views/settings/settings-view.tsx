@@ -109,6 +109,9 @@ export function SettingsView({
 	const [modelsErrorByProvider, setModelsErrorByProvider] = useState<
 		Record<string, string | null>
 	>({});
+	const [dryRunByProvider, setDryRunByProvider] = useState<
+		Record<string, { pending: boolean; message?: string; ok?: boolean }>
+	>({});
 	const [oauthSigningProviderId, setOauthSigningProviderId] = useState<
 		string | null
 	>(null);
@@ -122,7 +125,7 @@ export function SettingsView({
 	const [voiceInputSaving, setVoiceInputSaving] = useState(false);
 
 	useEffect(() => {
-		if (section !== "Models") {
+		if (section !== "Models" && section !== "API Keys") {
 			setSelectedProviderId(null);
 			setAddingProvider(false);
 		}
@@ -177,7 +180,7 @@ export function SettingsView({
 	}, [setProvidersWithCache]);
 
 	useEffect(() => {
-		if (activeNav !== "Models") {
+		if (activeNav !== "Models" && activeNav !== "API Keys") {
 			return;
 		}
 		const timeoutId = window.setTimeout(() => {
@@ -349,6 +352,36 @@ export function SettingsView({
 		[loadProviderModels],
 	);
 
+	const dryRunProvider = useCallback(async (id: string) => {
+		setDryRunByProvider((current) => ({
+			...current,
+			[id]: { pending: true },
+		}));
+		try {
+			const result = await desktopClient.invoke<{
+				ok: boolean;
+				models: number;
+			}>("dry_run_provider", { provider: id });
+			setDryRunByProvider((current) => ({
+				...current,
+				[id]: {
+					pending: false,
+					ok: result.ok,
+					message: `Connection verified. ${result.models} model${result.models === 1 ? "" : "s"} available. No generation request was sent.`,
+				},
+			}));
+		} catch (error) {
+			setDryRunByProvider((current) => ({
+				...current,
+				[id]: {
+					pending: false,
+					ok: false,
+					message: error instanceof Error ? error.message : String(error),
+				},
+			}));
+		}
+	}, []);
+
 	const selectedProvider = selectedProviderId
 		? (providers.find((p) => p.id === selectedProviderId) ?? null)
 		: null;
@@ -390,7 +423,7 @@ export function SettingsView({
 	};
 
 	const openProviderDetail = (id: string) => {
-		onNavigateSection("Models");
+		onNavigateSection(activeNav === "API Keys" ? "API Keys" : "Models");
 		setSelectedProviderId(id);
 	};
 
@@ -405,7 +438,7 @@ export function SettingsView({
 	}, [loadProviderModels, selectedProviderId]);
 
 	const backToProviderList = () => {
-		onNavigateSection("Models");
+		onNavigateSection(activeNav === "API Keys" ? "API Keys" : "Models");
 		setSelectedProviderId(null);
 		setAddingProvider(false);
 	};
@@ -433,7 +466,7 @@ export function SettingsView({
 	);
 
 	const openAddProvider = () => {
-		onNavigateSection("Models");
+		onNavigateSection(activeNav === "API Keys" ? "API Keys" : "Models");
 		setSelectedProviderId(null);
 		setAddingProvider(true);
 	};
@@ -471,9 +504,13 @@ export function SettingsView({
 				<ProviderDetailContent
 					modelsError={modelsErrorByProvider[selectedProvider.id] ?? null}
 					modelsLoading={modelsLoadingByProvider[selectedProvider.id] ?? false}
+					dryRunPending={dryRunByProvider[selectedProvider.id]?.pending ?? false}
+					dryRunMessage={dryRunByProvider[selectedProvider.id]?.message}
+					dryRunOk={dryRunByProvider[selectedProvider.id]?.ok}
 					oauthLoginPending={oauthSigningProviderId === selectedProvider.id}
 					onBack={backToProviderList}
 					onLoadModels={() => void loadProviderModels(selectedProvider.id)}
+					onDryRun={() => void dryRunProvider(selectedProvider.id)}
 					onUpdateModels={(models) =>
 						void updateProviderModels(selectedProvider.id, models)
 					}
@@ -501,7 +538,7 @@ export function SettingsView({
 	);
 
 	const content =
-		activeNav === "Models" ? (
+		activeNav === "Models" || activeNav === "API Keys" ? (
 			providerContent
 		) : activeNav === "Plugins" ? (
 			<CustomizationSectionView catalogPrimitive="plugin" section="Plugins" />

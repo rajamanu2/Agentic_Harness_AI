@@ -437,40 +437,43 @@ export default function Home() {
 					</Sidebar>
 					<SidebarInset className="min-h-0 min-w-0 overflow-hidden">
 						<SidebarTrigger className="absolute left-20 top-0 z-40 md:hidden" />
-						{view === "sessions" ? (
-							<SessionsView
-								activeSessionId={activeHistorySessionId}
-								history={sessionHistory}
-							/>
-						) : activeThread ? (
+						{activeThread ? (
 							<div
-								aria-hidden={view === "settings" ? true : undefined}
+								aria-hidden={view !== "chat" ? true : undefined}
 								className="flex min-h-0 flex-1 flex-col"
-								inert={view === "settings" ? true : undefined}
+								inert={view !== "chat" ? true : undefined}
 							>
-								<ChatThreadPane
-									key={activeThread.id}
-									historySession={activeThread.historySession}
-									initialPromptDraft={activeThread.initialPromptDraft}
-									knownWorkspacePaths={historyWorkspacePaths}
-									onInitialPromptDraftConsumed={
-										handleInitialPromptDraftConsumed
-									}
-									onUpdateSessionMetadata={handleUpdateSessionMetadata}
-									threadId={activeThread.id}
-									onDeleteSession={handleDeleteSession}
-									onNewThread={handleNewThread}
-									onOpenSession={handleOpenSession}
-									onOpenSessionById={handleOpenSessionById}
-									onOpenSetup={handleOpenSetup}
-									onOpenModelSettings={() =>
-										handleSettingsSectionChange("Models")
-									}
-									parentSession={activeParentSession}
-									onOpenVoiceInputSettings={() =>
-										handleSettingsSectionChange("Models")
-									}
-									onThreadStarted={handleThreadStarted}
+								{threads.map((thread) => (
+									<div
+										className={thread.id === activeThreadId ? "flex min-h-0 flex-1 flex-col" : "hidden"}
+										key={thread.id}
+									>
+										<ChatThreadPane
+											historySession={thread.historySession}
+											initialPromptDraft={thread.initialPromptDraft}
+											knownWorkspacePaths={historyWorkspacePaths}
+											onInitialPromptDraftConsumed={handleInitialPromptDraftConsumed}
+											onUpdateSessionMetadata={handleUpdateSessionMetadata}
+											threadId={thread.id}
+											onDeleteSession={handleDeleteSession}
+											onNewThread={handleNewThread}
+											onOpenSession={handleOpenSession}
+											onOpenSessionById={handleOpenSessionById}
+											onOpenSetup={handleOpenSetup}
+											onOpenModelSettings={() => handleSettingsSectionChange("API Keys")}
+											parentSession={thread.id === activeThreadId ? activeParentSession : undefined}
+											onOpenVoiceInputSettings={() => handleSettingsSectionChange("Models")}
+											onThreadStarted={handleThreadStarted}
+										/>
+									</div>
+								))}
+							</div>
+						) : null}
+						{view === "sessions" ? (
+							<div className="absolute inset-0 z-30 bg-background text-foreground">
+								<SessionsView
+									activeSessionId={activeHistorySessionId}
+									history={sessionHistory}
 								/>
 							</div>
 						) : null}

@@ -379,6 +379,10 @@ export function ProviderDetailContent({
 	onBack,
 	onUpdate,
 	onLoadModels,
+	onDryRun,
+	dryRunPending = false,
+	dryRunMessage,
+	dryRunOk,
 	onUpdateModels,
 	modelsLoading = false,
 	modelsError,
@@ -390,6 +394,10 @@ export function ProviderDetailContent({
 	onBack: () => void;
 	onUpdate: (updates: ProviderSettingsUpdate) => void;
 	onLoadModels?: () => void;
+	onDryRun?: () => void;
+	dryRunPending?: boolean;
+	dryRunMessage?: string;
+	dryRunOk?: boolean;
 	onUpdateModels?: (models: string[]) => void;
 	modelsLoading?: boolean;
 	modelsError?: string | null;
@@ -706,6 +714,28 @@ export function ProviderDetailContent({
 						OAuth is connected. Manual credentials remain available when this
 						provider supports them.
 					</p>
+				) : null}
+
+				{onDryRun ? (
+					<section className="mb-8 rounded-lg border bg-muted/20 p-4">
+						<div className="flex items-center justify-between gap-4 max-[720px]:items-stretch max-[720px]:flex-col">
+							<div>
+								<h2 className="text-base font-semibold text-foreground">Dry-run connection check</h2>
+								<p className="mt-1 text-sm text-muted-foreground">
+									Validate credentials, endpoint access, and model discovery without sending a generation request.
+								</p>
+							</div>
+							<Button disabled={dryRunPending} onClick={onDryRun} variant="outline">
+								{dryRunPending ? <Loader2 className="size-4 animate-spin" /> : null}
+								{dryRunPending ? "Checking..." : "Run dry check"}
+							</Button>
+						</div>
+						{dryRunMessage ? (
+							<p className={cn("mt-3 text-sm", dryRunOk ? "text-chart-2" : "text-destructive")} role="status">
+								{dryRunMessage}
+							</p>
+						) : null}
+					</section>
 				) : null}
 
 				{/* Models section */}

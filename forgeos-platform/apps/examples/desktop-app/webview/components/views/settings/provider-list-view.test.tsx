@@ -95,6 +95,31 @@ describe("ProviderDetailContent models", () => {
 		});
 		expect(onUpdateModels).toHaveBeenCalledWith(["alpha", "beta", "gamma"]);
 	});
+
+	it("runs a non-generation provider dry check and reports the result", async () => {
+		const onDryRun = vi.fn();
+		await act(async () => {
+			root.render(
+				<ProviderDetailContent
+					dryRunMessage="Connection verified. 2 models available. No generation request was sent."
+					dryRunOk
+					onBack={vi.fn()}
+					onDryRun={onDryRun}
+					onUpdate={vi.fn()}
+					provider={provider}
+				/>,
+			);
+		});
+
+		expect(container.textContent).toContain("Dry-run connection check");
+		expect(container.textContent).toContain("No generation request was sent");
+		await act(async () => {
+			Array.from(container.querySelectorAll("button"))
+				.find((button) => button.textContent?.includes("Run dry check"))
+				?.click();
+		});
+		expect(onDryRun).toHaveBeenCalledOnce();
+	});
 });
 
 const voiceProviders: Provider[] = [

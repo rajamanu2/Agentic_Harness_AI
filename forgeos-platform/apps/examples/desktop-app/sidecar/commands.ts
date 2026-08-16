@@ -1490,6 +1490,26 @@ export async function handleCommand(
 			manager.getProviderConfig(String(args?.provider ?? "").trim()),
 		);
 	}
+	if (command === "dry_run_provider") {
+		const providerId = String(args?.provider ?? "").trim();
+		if (!providerId) throw new Error("provider is required");
+		const manager = new ProviderSettingsManager();
+		await ensureCustomProvidersLoaded(manager);
+		const config = manager.getProviderConfig(providerId);
+		if (!config) {
+			throw new Error(`Provider "${providerId}" is not enabled or configured`);
+		}
+		const result = await getLocalProviderModels(providerId, config);
+		if (result.models.length === 0) {
+			throw new Error(`Provider "${providerId}" returned no usable models`);
+		}
+		return {
+			ok: true,
+			providerId,
+			models: result.models.length,
+			checkedAt: new Date().toISOString(),
+		};
+	}
 	if (command === "create_streaming_transcription_session") {
 		const manager = new ProviderSettingsManager();
 		const selection = manager.getVoiceInputSettings();
