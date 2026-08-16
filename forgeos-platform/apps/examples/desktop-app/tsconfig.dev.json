@@ -1,0 +1,26 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"@/*": ["./*"],
+			"@forgeos/agents": ["../../../sdk/packages/agents/src/index.ts"],
+			"@forgeos/core": ["../../../sdk/packages/core/src/index.ts"],
+			"@forgeos/core/hub": ["../../../sdk/packages/core/src/hub/index.ts"],
+			"@forgeos/core/hub/daemon-entry": [
+				"../../../sdk/packages/core/src/hub/daemon/entry.ts"
+			],
+			"@forgeos/llms": ["../../../sdk/packages/llms/src/index.ts"],
+			"@forgeos/shared": ["../../../sdk/packages/shared/src/index.ts"],
+			"@forgeos/shared/storage": [
+				"../../../sdk/packages/shared/src/storage/index.ts"
+			],
+			"@forgeos/shared/db": ["../../../sdk/packages/shared/src/db/index.ts"],
+			"@forgeos/shared/*": [
+				"../../../sdk/packages/shared/src/*",
+				"../../../sdk/packages/shared/src/*/index.ts"
+			]
+		}
+	},
+	"include": ["sidecar/**/*.ts", "scripts/**/*.ts", "global.d.ts", "bun.mts"],
+	"exclude": ["node_modules", "webview"]
+}

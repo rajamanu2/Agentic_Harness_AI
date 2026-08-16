@@ -1,0 +1,1 @@
+../../.forgeosrules/workflows/hotfix-release.md

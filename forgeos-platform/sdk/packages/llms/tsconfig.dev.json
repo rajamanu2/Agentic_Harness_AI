@@ -1,0 +1,12 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"rootDir": "..",
+		"paths": {
+			"@forgeos/agents": ["../agents/src/index.ts"],
+			"@forgeos/shared": ["../shared/src/index.ts"],
+			"@forgeos/shared/*": ["../shared/src/*", "../shared/src/*/index.ts"]
+		}
+	}
+}

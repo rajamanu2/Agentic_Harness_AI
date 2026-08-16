@@ -1,0 +1,53 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"lib": ["ES2022"],
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"paths": {
+			"@forgeos/agents": ["./packages/agents/src/index.ts"],
+			"@forgeos/agents/*": [
+				"./packages/agents/src/*",
+				"./packages/agents/src/*/index.ts"
+			],
+			"@forgeos/forgeos-hub": ["./apps/forgeos-hub/src/server.ts"],
+			"@forgeos/core": ["./packages/core/src/index.ts"],
+			"@forgeos/core/hub": ["./packages/core/src/hub/index.ts"],
+			"@forgeos/core/hub/daemon-entry": [
+				"./packages/core/src/hub/daemon/entry.ts"
+			],
+			"@forgeos/core/telemetry": [
+				"./packages/core/src/services/telemetry/index.ts"
+			],
+			"@forgeos/core/*": [
+				"./packages/core/src/*",
+				"./packages/core/src/*/index.ts"
+			],
+			"@forgeos/llms": ["./packages/llms/src/index.ts"],
+			"@forgeos/llms/browser": ["./packages/llms/src/index.browser.ts"],
+			"@forgeos/sdk": ["./packages/sdk/src/index.ts"],
+			"@forgeos/shared": ["./packages/shared/src/index.ts"],
+			"@forgeos/shared/automation": ["./packages/shared/src/automation/index.ts"],
+			"@forgeos/shared/browser": ["./packages/shared/src/index.browser.ts"],
+			"@forgeos/shared/db": ["./packages/shared/src/db/index.ts"],
+			"@forgeos/shared/storage": ["./packages/shared/src/storage/index.ts"],
+			"@forgeos/shared/types": ["./packages/shared/src/types/index.ts"],
+			"@forgeos/shared/*": [
+				"./packages/shared/src/*",
+				"./packages/shared/src/*/index.ts"
+			]
+		}
+	},
+	"include": ["**/*.ts", "**/*.tsx", "**/bun.mts", "../vitest.config.ts"],
+	"exclude": [
+		"node_modules",
+		"**/dist/**",
+		"**/.next/**",
+		"packages/gateway/**"
+	]
+}

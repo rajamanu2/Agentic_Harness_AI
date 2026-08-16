@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "concurrently \"node server.mjs\" \"vite --host 127.0.0.1\"",
     "build": "vite build",
+    "test:adapters": "node scripts/test-adapter-registry.mjs",
     "agentica": "node agentica-cli.mjs",
     "cli": "node agentica-cli.mjs",
     "learn:web": "node scripts/open-source-learner.mjs --watch",

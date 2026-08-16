@@ -1,0 +1,50 @@
+.forgeos-ui-agent-ask-question {
+	/* Brand violet, falling back to a literal for hosts without the theme
+	 * tokens; hosts may override. */
+	--forgeos-ui-agent-ask-question-accent: var(
+		--brand-violet,
+		oklch(0.55 0.22 293)
+	);
+	--forgeos-ui-agent-ask-question-accent-border: var(
+		--brand-violet,
+		oklch(0.62 0.19 293)
+	);
+}
+
+.forgeos-ui-agent-ask-question,
+.forgeos-ui-agent-ask-question__item,
+.forgeos-ui-agent-ask-question__option {
+	box-sizing: border-box;
+	border-style: solid;
+}
+
+.forgeos-ui-agent-ask-question__option {
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-variant: inherit;
+	letter-spacing: inherit;
+	line-height: inherit;
+}
+
+.forgeos-ui-agent-ask-question__spinner {
+	animation: forgeos-ui-agent-ask-question-spin 1s linear infinite;
+}
+
+.forgeos-ui-agent-ask-question__option:has(
+		> .forgeos-ui-agent-ask-question__spinner
+	) {
+	padding-inline: 0.625rem;
+}
+
+@keyframes forgeos-ui-agent-ask-question-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.forgeos-ui-agent-ask-question__spinner {
+		animation: none;
+	}
+}

@@ -24,3 +24,13 @@ Thumbs.db
 # Logs
 *.log
 .runtime-logs/
+.forgeos/evidence/
+
+# Generated self-contained desktop runtimes (rebuilt per target OS)
+forgeos-platform/apps/examples/desktop-app/src-tauri/resources/forgeos-runtime/
+
+# Release binaries are published as workflow/GitHub Release artifacts, not Git blobs
+release/*.exe
+release/*.msi
+release/resources/
+release/runtime/

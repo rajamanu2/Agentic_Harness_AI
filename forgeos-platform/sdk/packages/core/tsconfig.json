@@ -1,0 +1,22 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "..",
+		"noEmit": true,
+		"paths": {
+			"@forgeos/agents": ["../agents/src/index.ts"],
+			"@forgeos/agents/*": ["../agents/src/*", "../agents/src/*/index.ts"],
+			"@forgeos/llms": ["../llms/src/index.ts"],
+			"@forgeos/llms/browser": ["../llms/src/index.browser.ts"],
+			"@forgeos/shared": ["../shared/src/index.ts"],
+			"@forgeos/shared/automation": ["../shared/src/automation/index.ts"],
+			"@forgeos/shared/browser": ["../shared/src/index.browser.ts"],
+			"@forgeos/shared/db": ["../shared/src/db/index.ts"],
+			"@forgeos/shared/storage": ["../shared/src/storage/index.ts"],
+			"@forgeos/shared/types": ["../shared/src/types/index.ts"],
+			"@forgeos/shared/*": ["../shared/src/*", "../shared/src/*/index.ts"]
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist", "fixtures"]
+}

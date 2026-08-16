@@ -1,0 +1,164 @@
+---
+title: "CLI Overview"
+sidebarTitle: "CLI Overview"
+description: "Use ForgeOS CLI for interactive terminal sessions and automated headless workflows."
+---
+
+## Prerequisites
+
+- ForgeOS CLI installed (install via `npm i -g forgeos`)
+- Provider authenticated (`forgeos auth`) — use the ForgeOS Provider, ForgeOSPass, or your own provider key ([Authorization Guide](/getting-started/authorizing-with-forgeos#cli-setup))
+
+## Quick Start
+
+```bash
+# Interactive session
+forgeos
+
+# Run one task immediately
+forgeos "refactor this module to use async/await"
+
+# Structured output for scripts
+forgeos --json "list TODO comments"
+```
+
+## Headless mode
+
+Use headless mode for scripts/automation and processable output.
+
+Headless is triggered when using flags like `--json`, when stdin is piped, or when output is redirected.
+
+#### When headless activates
+
+| Invocation | Reason |
+|---|---|
+| `forgeos --json "task"` | JSON output mode |
+| `cat file \| forgeos "task"` | stdin is piped |
+| `forgeos "task" > output.txt` | stdout is redirected |
+
+```bash
+# CI/script style execution
+git diff | forgeos "review these changes"
+
+# JSON for parsing
+forgeos --json "summarize this changelog" | jq -r '.text'
+```
+
+See: [Headless Mode](#headless-mode)
+
+### Autonomous execution
+
+For fully unattended runs, use auto-approval:
+
+```bash
+forgeos --auto-approve true "run tests and fix failures"
+```
+
+Mode selection also works in headless runs:
+
+```bash
+# plan-first
+forgeos -p "design migration plan"
+
+# act immediately (default)
+forgeos "apply migration"
+```
+
+<Warning>
+Autonomous execution can modify files and run commands without further prompts. Use a clean branch and review results.
+</Warning>
+
+## High-Value Commands
+
+```bash
+forgeos --help
+forgeos <command> --help
+```
+
+| Command | Purpose |
+|---|---|
+| `forgeos` | Start interactive mode or run a prompt |
+| `forgeos auth` | Authenticate and set provider/model |
+| `forgeos config` | Open the interactive config view |
+| `forgeos mcp` | Manage MCP servers |
+| `forgeos doctor` | Diagnose/fix configuration issues |
+| `forgeos history` | Show and manage task history |
+| `forgeos schedule` | Manage scheduled tasks |
+| `forgeos hub` | Manage local hub daemon |
+| `forgeos kanban` | Launch Kanban app |
+
+## Most-Used Global Flags
+
+Source of truth: [CLI Reference](/cli/cli-reference)
+
+| Flag | Purpose |
+|---|---|
+| `-p, --plan` | Start in Plan mode |
+| `--auto-approve <boolean>` | Global tool auto-approval (`true`/`false`, default `true`) |
+| `-m, --model <model>` | Override model for this run |
+| `-P, --provider <id>` | Override provider for this run |
+| `-c, --cwd <path>` | Set working directory |
+| `--config <dir>` | Use config directory |
+| `--data-dir <dir>` | Use isolated local state |
+| `--json` | Output newline-delimited JSON messages |
+| `--thinking <level>` | Set reasoning effort: `none\|low\|medium\|high\|xhigh` (default `medium`) |
+| `-t, --timeout <seconds>` | Set task timeout |
+
+## Automation Patterns
+
+### Pipe context in
+
+```bash
+cat README.md | forgeos "summarize key setup steps"
+git diff | forgeos "review for potential regressions"
+```
+
+### Chain tasks
+
+```bash
+git diff | forgeos "explain these changes" | forgeos "write a commit message"
+```
+
+### Restrict command execution
+
+```bash
+export FORGEOS_COMMAND_PERMISSIONS='{"allow": ["npm *", "git *"], "deny": ["rm -rf *", "sudo *"]}'
+```
+
+### Include images in tasks
+
+```bash
+forgeos -i "fix the layout issue shown in @./screenshot.png"
+
+# or reference inline
+forgeos "fix the UI shown in @./design-mockup.png"
+```
+
+### Set execution timeout
+
+```bash
+forgeos --timeout 600 "run full test suite"
+```
+
+## JSON Output Schema
+
+When using `--json`, each line is a JSON message object.
+
+```json
+{"type":"say","text":"I'll create the file now.","ts":1760501486669,"say":"text"}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `type` | `"ask"` or `"say"` | Message category |
+| `text` | `string` | Message content |
+| `ts` | `number` | Unix timestamp in milliseconds |
+| `say` | `string` | Subtype when `type` is `"say"` |
+| `ask` | `string` | Subtype when `type` is `"ask"` |
+| `reasoning` | `string` | Optional model reasoning |
+| `partial` | `boolean` | Streaming flag |
+
+## Next Steps
+
+- [CLI Reference](/cli/cli-reference)
+- [ACP](/usage/acp) — use ForgeOS as the coding agent in Zed, JetBrains IDEs, Neovim, and other ACP clients
