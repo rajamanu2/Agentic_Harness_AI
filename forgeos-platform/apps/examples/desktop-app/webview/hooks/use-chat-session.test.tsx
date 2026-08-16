@@ -1127,7 +1127,7 @@ describe("useChatSession", () => {
 		expect(current.summary.totalCostUsd).toBeCloseTo(0.03);
 	});
 
-	it("resets to the remembered provider/model after viewing a historical session", async () => {
+	it("resets to the local-first provider/model after viewing a historical session", async () => {
 		window.localStorage.setItem(
 			MODEL_SELECTION_STORAGE_KEY,
 			JSON.stringify({
@@ -1201,22 +1201,22 @@ describe("useChatSession", () => {
 		});
 
 		// Starting a new chat from a hydrated pane resets the session; the
-		// composer must return to the remembered defaults instead of retaining
+		// composer must return to the local-first defaults instead of retaining
 		// the historical session's provider/model.
 		await act(async () => {
 			await current.reset();
 		});
 		expect(current.config.sessionId).toBeUndefined();
 		expect(current.config).toMatchObject({
-			provider: "forgeos",
-			model: "remembered-model",
+			provider: "ollama",
+			model: "qwen2.5-coder:7b",
 		});
 
-		// The next session then starts with the remembered defaults.
+		// The next session then starts with the free local defaults.
 		await act(async () => current.sendPrompt("Start a fresh task"));
 		expect(startConfig).toMatchObject({
-			provider: "forgeos",
-			model: "remembered-model",
+			provider: "ollama",
+			model: "qwen2.5-coder:7b",
 		});
 	});
 

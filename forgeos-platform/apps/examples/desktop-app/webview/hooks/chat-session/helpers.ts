@@ -11,6 +11,8 @@ import type {
 import type { SessionHistoryStatus } from "@/lib/session-history";
 import { OAUTH_MANAGED_PROVIDERS } from "./constants";
 
+const KEYLESS_LOCAL_PROVIDERS = new Set(["ollama"]);
+
 type RpcMessageLike = {
 	role?: string;
 	content?: unknown;
@@ -169,6 +171,9 @@ export function resolveCredentialError(
 		return "Provider is required before starting a chat session.";
 	}
 	if (OAUTH_MANAGED_PROVIDERS.has(providerId)) {
+		return null;
+	}
+	if (KEYLESS_LOCAL_PROVIDERS.has(providerId)) {
 		return null;
 	}
 	if (config.apiKey.trim().length > 0) {
