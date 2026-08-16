@@ -2,7 +2,7 @@ param([string]$ReleaseRoot = (Join-Path (Split-Path -Parent $PSScriptRoot) "rele
 
 $ErrorActionPreference = "Stop"
 $resolved = (Resolve-Path -LiteralPath $ReleaseRoot).Path
-$required = @("ForgeOS_0.0.13_x64-setup.exe", "ForgeOS_0.0.13_x64_en-US.msi", "forgeos.exe", "resources\forgeos-runtime\engine\forgeos-engine.exe", "resources\forgeos-runtime\control-plane\forgeos-control-plane.jar", "resources\forgeos-runtime\control-plane\jre-all\bin\javaw.exe")
+$required = @("ForgeOS_0.0.13_x64-setup.exe", "ForgeOS_0.0.13_x64_en-US.msi", "forgeos.exe", "code-sidecar.exe", "resources\forgeos-runtime\engine\forgeos-engine.exe", "resources\forgeos-runtime\control-plane\forgeos-control-plane.jar", "resources\forgeos-runtime\control-plane\jre-all\bin\javaw.exe")
 foreach ($relative in $required) {
     $target = Join-Path $resolved $relative
     if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { throw "Missing release artifact: $relative" }

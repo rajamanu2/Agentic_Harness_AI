@@ -8,7 +8,7 @@ Enterprise MSI installation:
 
 Portable smoke-test executable:
   forgeos.exe
-  Keep the adjacent resources directory with the executable.
+  Keep code-sidecar.exe and the adjacent resources directory with the executable.
 
 The installer includes the ForgeOS desktop sidecar, universal engine, adapter
 registry, control plane, and a private Java runtime. Users do not need Node,
