@@ -25,6 +25,11 @@ Settings includes a dedicated API Keys tab for built-in and custom providers.
 Its dry check validates configuration and discovers models without generating
 tokens. Ollama models are discovered locally. Active chats remain alive while
 the user switches sessions or opens Settings, and reattach when selected again.
+Each active task has a persistent evidence panel with its real outcome, source,
+changed files, captured verification checks, and SHA-256 replay integrity.
+The first-party agentic bridge and skill are installed globally before the
+desktop sidecar starts, so every opened workspace can use the bundled scanner,
+23 technology adapters, planning, learning, policy, and evidence services.
 External systems such as Salesforce, AWS, n8n, and Kubernetes use their own
 authenticated CLI or runtime connection. ForgeOS does not embed credentials.
 ForgeOS connection discovery reports readiness and available targets without
@@ -34,7 +39,8 @@ The current local artifacts are unsigned. Windows may display a publisher warnin
 Public distribution requires a Windows code-signing certificate and a signed update feed.
 
 SHA-256:
-8F34E35FB5C8779247B2BE4AE1E9AC0B7A84A966AB5537A3A877AF2EE860C359  ForgeOS_0.0.13_x64_en-US.msi
-75569393BF930590C7E23D2B962412D5B2604D628CCB53FF49DCD2E424E44531  ForgeOS_0.0.13_x64-setup.exe
-4AB7B29F7F80BCC293430CCBCB5B6B914B57FA014853864410EA0E7CC43B57AC  forgeos.exe
+E2ADA6AAC3012689E8112ACAD0BBE0FB9F32F1F48BD99362BADB5079131B84A3  ForgeOS_0.0.13_x64_en-US.msi
+42090FA64457C167EF033FFC07A867FA2E452F7B22AE70E3FD0C8100968FB9D1  ForgeOS_0.0.13_x64-setup.exe
+2481BE61066FF9939F049BFF017AE171902DC7B952EBCCC05EF1A9EB175C7C28  forgeos.exe
+666C9C03107CEFFECF297D35BB95CD99B5B6A71EFC207C2573A29AEBF2F15558  code-sidecar.exe
 E4B150ED689A1D44A790AEFEEA3880D32BB7DC51D8256386A3691BA04648CF70  runtime/forgeos-control-plane.jar

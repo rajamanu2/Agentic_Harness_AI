@@ -288,6 +288,65 @@ impl AuxiliaryServicesState {
     }
 }
 
+fn forgeos_home_dir() -> Option<PathBuf> {
+    if let Some(configured) = std::env::var_os("FORGEOS_HOME") {
+        if !configured.is_empty() {
+            return Some(PathBuf::from(configured));
+        }
+    }
+    std::env::var_os(if cfg!(windows) { "USERPROFILE" } else { "HOME" })
+        .map(PathBuf::from)
+        .map(|home| home.join(".forgeos"))
+}
+
+/// Installs ForgeOS' first-party agentic bridge into the normal global
+/// extension roots before the sidecar creates a session. This makes the
+/// bundled scanner, planner, adapters, learning service, and evidence hooks
+/// available for every workspace rather than only this source repository.
+fn install_bundled_agentic_runtime(resource_dir: &Path) -> Result<(), String> {
+    let runtime = resource_dir.join("resources").join("forgeos-runtime");
+    let forgeos_home = forgeos_home_dir()
+        .ok_or_else(|| "could not resolve the ForgeOS home directory".to_string())?;
+    let assets = [
+        (
+            runtime
+                .join("plugins")
+                .join("forgeos-agentic-harness.ts"),
+            forgeos_home
+                .join("plugins")
+                .join("forgeos-agentic-harness.ts"),
+        ),
+        (
+            runtime
+                .join("skills")
+                .join("forgeos-agentic-harness")
+                .join("SKILL.md"),
+            forgeos_home
+                .join("skills")
+                .join("forgeos-agentic-harness")
+                .join("SKILL.md"),
+        ),
+    ];
+    for (source, destination) in assets {
+        if !source.is_file() {
+            return Err(format!("bundled runtime asset not found: {}", source.display()));
+        }
+        if let Some(parent) = destination.parent() {
+            fs::create_dir_all(parent).map_err(|error| {
+                format!("could not create {}: {error}", parent.display())
+            })?;
+        }
+        fs::copy(&source, &destination).map_err(|error| {
+            format!(
+                "could not install {} to {}: {error}",
+                source.display(),
+                destination.display()
+            )
+        })?;
+    }
+    Ok(())
+}
+
 #[cfg(windows)]
 fn configure_background_process(command: &mut Command) {
     use std::os::windows::process::CommandExt;
@@ -1091,6 +1150,9 @@ fn main() {
             setup_application_menu(app)?;
             setup_tray_icon(app)?;
             if let Ok(resource_dir) = app.path().resource_dir() {
+                if let Err(error) = install_bundled_agentic_runtime(&resource_dir) {
+                    eprintln!("[forgeos-agentic-runtime] installation failed: {error}");
+                }
                 app.state::<Arc<AuxiliaryServicesState>>()
                     .start(&resource_dir);
             }

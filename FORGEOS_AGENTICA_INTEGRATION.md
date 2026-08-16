@@ -33,6 +33,13 @@ ForgeOS clients (Desktop / VS Code / CLI / ACP)
 
 The plugin discovers service locations from `AGENTICA_BASE_URL` and `COMMAND_CENTER_BASE_URL`. It contains no API keys or model defaults.
 
+The Windows desktop package ships the agentic engine, control plane, private
+Java runtime, bridge plugin, and bridge skill. On startup ForgeOS installs its
+first-party bridge into the user's global `.forgeos/plugins` and
+`.forgeos/skills` roots before starting the desktop sidecar. The same tools and
+hooks are therefore available in every selected repository, not only in this
+source checkout.
+
 ## Advanced safety and evidence
 
 Every ForgeOS run creates `.forgeos/evidence/<run-id>/events.jsonl`. Events are SHA-256 chained and include hashes of tool inputs and results rather than raw secrets. A policy hook blocks direct non-dry-run Salesforce deployment commands and routes validation through the explicit tool.

@@ -1,6 +1,6 @@
 # ForgeOS Build Verification
 
-Verified on Windows x64 on 2026-08-16.
+Verified on Windows x64 on 2026-08-17.
 
 ## Passed
 
@@ -41,13 +41,18 @@ Verified on Windows x64 on 2026-08-16.
 - Localhost development URLs are detected and opened in an integrated, reloadable ForgeOS live preview; remote URLs are rejected by preview validation
 - Dedicated API Keys settings tab supports every catalog/custom provider, non-generation dry-run model discovery, and all locally installed Ollama models
 - Opened chat panes remain mounted and subscribed while switching chats or opening Sessions/Settings, so active agent runs continue in the background
+- Persistent three-column task view visually verified in the packaged app: conversation/live preview remains centered while real outcome, source, changed-file, verification, and ledger evidence stays visible on the right
+- Evidence classification does not claim success without a captured passing check; deterministic SHA-256 replay integrity is covered by focused tests
+- First-party agentic backend plugin and skill are bundled and installed into the global ForgeOS extension roots before the sidecar starts, so all opened workspaces receive the scanner, 23 adapters, planner, learning, policy, and evidence hooks
+- Focused desktop verification passed: 100 UI/evidence tests, TypeScript typecheck, native Rust compilation, Windows installers, and packaged runtime smoke test
 
 ## Windows release hashes
 
 ```text
-8F34E35FB5C8779247B2BE4AE1E9AC0B7A84A966AB5537A3A877AF2EE860C359  ForgeOS_0.0.13_x64_en-US.msi
-75569393BF930590C7E23D2B962412D5B2604D628CCB53FF49DCD2E424E44531  ForgeOS_0.0.13_x64-setup.exe
-4AB7B29F7F80BCC293430CCBCB5B6B914B57FA014853864410EA0E7CC43B57AC  forgeos.exe
+E2ADA6AAC3012689E8112ACAD0BBE0FB9F32F1F48BD99362BADB5079131B84A3  ForgeOS_0.0.13_x64_en-US.msi
+42090FA64457C167EF033FFC07A867FA2E452F7B22AE70E3FD0C8100968FB9D1  ForgeOS_0.0.13_x64-setup.exe
+2481BE61066FF9939F049BFF017AE171902DC7B952EBCCC05EF1A9EB175C7C28  forgeos.exe
+666C9C03107CEFFECF297D35BB95CD99B5B6A71EFC207C2573A29AEBF2F15558  code-sidecar.exe
 E4B150ED689A1D44A790AEFEEA3880D32BB7DC51D8256386A3691BA04648CF70  runtime/forgeos-control-plane.jar
 ```
 

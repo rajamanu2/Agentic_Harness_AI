@@ -12,6 +12,7 @@ import {
 	MoreHorizontal,
 	MonitorPlay,
 	Plus,
+	ShieldCheck,
 	Trash2,
 } from "lucide-react";
 import { type CSSProperties, memo, useEffect, useMemo, useState } from "react";
@@ -48,6 +49,8 @@ type AgentHeaderProps = {
 	onOpenDiff?: () => void;
 	onOpenPreview?: () => void;
 	previewAvailable?: boolean;
+	evidenceOpen?: boolean;
+	onToggleEvidence?: () => void;
 	showSessionActions?: boolean;
 	status?: ChatSessionStatus;
 	diff?: {
@@ -77,6 +80,8 @@ function AgentHeaderImpl({
 	onOpenDiff,
 	onOpenPreview,
 	previewAvailable = false,
+	evidenceOpen = false,
+	onToggleEvidence,
 	showSessionActions = true,
 	status,
 	diff,
@@ -231,6 +236,19 @@ function AgentHeaderImpl({
 
 			{showSessionActions ? (
 				<div className="flex shrink-0 items-center gap-2">
+					<Button
+						aria-label={
+							evidenceOpen ? "Hide task evidence" : "Show task evidence"
+						}
+						aria-pressed={evidenceOpen}
+						className="gap-1 text-xs"
+						onClick={onToggleEvidence}
+						size="sm"
+						variant={evidenceOpen ? "secondary" : "ghost"}
+					>
+						<ShieldCheck className="size-4" />
+						<span className="max-[1120px]:hidden">Evidence</span>
+					</Button>
 					{previewAvailable ? (
 						<Button
 							aria-label="Open live preview"
