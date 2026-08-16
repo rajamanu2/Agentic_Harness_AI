@@ -14,7 +14,9 @@ The installer includes the ForgeOS desktop sidecar, universal engine, adapter
 registry, control plane, and a private Java runtime. Users do not need Node,
 Bun, Rust, Java, or the source repository.
 
-On first launch, select or sign in to an LLM provider before starting an agent task.
+New sessions use the free local Ollama qwen2.5-coder:7b model by default. This
+does not require a hosted-provider account, API key, quota, or authorization.
+Ollama must be running with that model installed. Hosted providers remain optional.
 External systems such as Salesforce, AWS, n8n, and Kubernetes use their own
 authenticated CLI or runtime connection. ForgeOS does not embed credentials.
 ForgeOS connection discovery reports readiness and available targets without
@@ -24,7 +26,7 @@ The current local artifacts are unsigned. Windows may display a publisher warnin
 Public distribution requires a Windows code-signing certificate and a signed update feed.
 
 SHA-256:
-854E375BBD93DCBE9EFD584D31D1D6B20FB2F967EA592EFD70957B09BF81FC43  ForgeOS_0.0.13_x64_en-US.msi
-A3F55245F58E2848E0655CB70FE4B90E2D34451543209D941D96E95FA880F4F0  ForgeOS_0.0.13_x64-setup.exe
-2F85052F62BA39BEBEE85E244B07A45D68C5F438DE384CA5B41742457A19D417  forgeos.exe
+68271D10BCBDDE6C89881C576F6FCA55C57CFA4C0A9B2F8D9CD1A5BEE2364BA7  ForgeOS_0.0.13_x64_en-US.msi
+B3BC62BAED962CF7B2FAAB60FDFAD1A9352F4C0FF49E7F05B84B056DCC11A850  ForgeOS_0.0.13_x64-setup.exe
+DF36F96380BCA449023930B0F4793E2A1ACCAC9B9B124934C81D3149C4429211  forgeos.exe
 E4B150ED689A1D44A790AEFEEA3880D32BB7DC51D8256386A3691BA04648CF70  runtime/forgeos-control-plane.jar

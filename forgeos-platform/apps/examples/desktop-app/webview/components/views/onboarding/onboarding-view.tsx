@@ -388,6 +388,28 @@ function ConnectStep({
 		}
 	}, [apiKey, onConnected, selectedProvider]);
 
+	const connectLocalOllama = useCallback(async () => {
+		setSaving(true);
+		setSaveError(null);
+		try {
+			await desktopClient.invoke("save_provider_settings", {
+				provider: "ollama",
+				enabled: true,
+				base_url: "http://127.0.0.1:11434",
+			});
+			rememberProviderSelection({
+				id: "ollama",
+				defaultModelId: "qwen2.5-coder:7b",
+			});
+			onConnected({ kind: "provider", providerName: "ForgeOS Local" });
+		} catch (error) {
+			setSaveError(error instanceof Error ? error.message : String(error));
+		} finally {
+			invalidateProviderCatalogCache();
+			setSaving(false);
+		}
+	}, [onConnected]);
+
 	return (
 		<OnboardingCard wide>
 			<div className="flex items-center gap-2">
@@ -410,8 +432,33 @@ function ConnectStep({
 			</p>
 
 			<div className="mt-6 flex flex-col gap-3">
-				{/* ForgeOS account */}
+				{/* Free local runtime: no account, API key, quota, or external authorization. */}
 				<div className="rounded-2xl border border-primary/30 bg-primary/5 p-4">
+					<div className="flex items-center gap-2">
+						<p className="text-base font-semibold text-foreground">
+							ForgeOS Local
+						</p>
+						<Badge className="bg-primary/15 text-primary" variant="secondary">
+							Free and private
+						</Badge>
+					</div>
+					<p className="mt-1 text-sm text-muted-foreground">
+						Run qwen2.5-coder:7b through Ollama on this computer. No account,
+						API key, hosted quota, or external authorization.
+					</p>
+					<Button
+						className="mt-3 rounded-full"
+						disabled={saving}
+						onClick={() => void connectLocalOllama()}
+						type="button"
+					>
+						{saving ? <Loader2 className="size-4 animate-spin" /> : null}
+						{saving ? "Connecting..." : "Use free local model"}
+					</Button>
+				</div>
+
+				{/* ForgeOS account */}
+				{false ? <div className="rounded-2xl border border-primary/30 bg-primary/5 p-4">
 					<div className="flex items-center gap-2">
 						<p className="text-base font-semibold text-foreground">
 							Sign in with ForgeOS
@@ -547,7 +594,7 @@ function ConnectStep({
 							) : null}
 						</div>
 					) : null}
-				</div>
+				</div> : null}
 
 				{/* Bring your own key */}
 				<div className="rounded-2xl border border-border/70 bg-background/60 p-4">

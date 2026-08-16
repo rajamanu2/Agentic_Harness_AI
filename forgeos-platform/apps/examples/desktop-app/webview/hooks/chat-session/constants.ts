@@ -1,4 +1,3 @@
-import { FORGEOS_DEFAULT_MODEL_ID } from "@forgeos/shared/browser";
 import type { ChatSessionConfig } from "@/lib/chat-schema";
 import { readModelSelectionStorageFromWindow } from "@/lib/model-selection";
 import { normalizeProviderId } from "@/lib/provider-id";
@@ -21,9 +20,9 @@ export const DEFAULT_CHAT_CONFIG: ChatSessionConfig = {
 	sessionId: undefined,
 	workspaceRoot: "",
 	cwd: "",
-	provider: "forgeos",
-	model: FORGEOS_DEFAULT_MODEL_ID,
-	apiKey: process.env.FORGEOS_API_KEY || "",
+	provider: "ollama",
+	model: "qwen2.5-coder:7b",
+	apiKey: "",
 	mode: "act",
 	systemPrompt: undefined,
 	maxIterations: undefined,
@@ -38,6 +37,7 @@ export const DEFAULT_CHAT_CONFIG: ChatSessionConfig = {
 export function getInitialChatConfig(): ChatSessionConfig {
 	const selection = readModelSelectionStorageFromWindow();
 	const workspaceSelection = readWorkspaceSelectionFromWindow();
+	const localFirst = process.env.NEXT_PUBLIC_FORGEOS_LOCAL_FIRST !== "false";
 	const rememberedProvider = normalizeProviderId(selection.lastProvider);
 	const rememberedModelForProvider = rememberedProvider
 		? (selection.lastModelByProvider[rememberedProvider] ??
@@ -45,13 +45,17 @@ export function getInitialChatConfig(): ChatSessionConfig {
 		: undefined;
 	const rememberedModelForDefaultProvider =
 		selection.lastModelByProvider[DEFAULT_CHAT_CONFIG.provider];
-	const provider = rememberedProvider || DEFAULT_CHAT_CONFIG.provider;
+	const provider = localFirst
+		? DEFAULT_CHAT_CONFIG.provider
+		: rememberedProvider || DEFAULT_CHAT_CONFIG.provider;
 	const model =
-		rememberedModelForProvider ||
-		(provider === DEFAULT_CHAT_CONFIG.provider
-			? rememberedModelForDefaultProvider
-			: undefined) ||
-		DEFAULT_CHAT_CONFIG.model;
+		localFirst
+			? DEFAULT_CHAT_CONFIG.model
+			: rememberedModelForProvider ||
+				(provider === DEFAULT_CHAT_CONFIG.provider
+					? rememberedModelForDefaultProvider
+					: undefined) ||
+				DEFAULT_CHAT_CONFIG.model;
 
 	return {
 		...DEFAULT_CHAT_CONFIG,
