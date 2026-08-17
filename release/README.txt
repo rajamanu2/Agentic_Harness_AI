@@ -27,6 +27,10 @@ tokens. Ollama models are discovered locally. Active chats remain alive while
 the user switches sessions or opens Settings, and reattach when selected again.
 Each active task has a persistent evidence panel with its real outcome, source,
 changed files, captured verification checks, and SHA-256 replay integrity.
+Act and YOLO sessions execute autonomously: ForgeOS inspects the workspace,
+uses safe professional defaults for ordinary ambiguity, builds and verifies in
+the same turn, and asks only when a real secret, authorization, protected-data,
+or high-impact decision blocker cannot be resolved safely.
 The first-party agentic bridge and skill are installed globally before the
 desktop sidecar starts, so every opened workspace can use the bundled scanner,
 23 technology adapters, planning, learning, policy, and evidence services.
@@ -39,8 +43,8 @@ The current local artifacts are unsigned. Windows may display a publisher warnin
 Public distribution requires a Windows code-signing certificate and a signed update feed.
 
 SHA-256:
-E2ADA6AAC3012689E8112ACAD0BBE0FB9F32F1F48BD99362BADB5079131B84A3  ForgeOS_0.0.13_x64_en-US.msi
-42090FA64457C167EF033FFC07A867FA2E452F7B22AE70E3FD0C8100968FB9D1  ForgeOS_0.0.13_x64-setup.exe
-2481BE61066FF9939F049BFF017AE171902DC7B952EBCCC05EF1A9EB175C7C28  forgeos.exe
-666C9C03107CEFFECF297D35BB95CD99B5B6A71EFC207C2573A29AEBF2F15558  code-sidecar.exe
+278C2DFCE89A3F916825A0485607A2FF62F3156CB089D43118763C9E9D237C79  ForgeOS_0.0.13_x64_en-US.msi
+FEBA131B654E8F687E0ED566326655B63BC47E87273403C55B9E96A43C4EA46E  ForgeOS_0.0.13_x64-setup.exe
+E9A5D0C3D1F651F828C64646F49B5651F3A9E889A855FEA772D9219024D65913  forgeos.exe
+484D219833488841F34051E27CFBA1E7F2D0808A18C4D8F3D9D59A06522BB673  code-sidecar.exe
 E4B150ED689A1D44A790AEFEEA3880D32BB7DC51D8256386A3691BA04648CF70  runtime/forgeos-control-plane.jar

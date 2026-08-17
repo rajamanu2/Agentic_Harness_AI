@@ -45,14 +45,15 @@ Verified on Windows x64 on 2026-08-17.
 - Evidence classification does not claim success without a captured passing check; deterministic SHA-256 replay integrity is covered by focused tests
 - First-party agentic backend plugin and skill are bundled and installed into the global ForgeOS extension roots before the sidecar starts, so all opened workspaces receive the scanner, 23 adapters, planner, learning, policy, and evidence hooks
 - Focused desktop verification passed: 100 UI/evidence tests, TypeScript typecheck, native Rust compilation, Windows installers, and packaged runtime smoke test
+- Act and YOLO sessions now follow an autonomous execution contract: inspect first, infer safe professional defaults, implement and verify in the same turn, and ask only for genuine secrets, authorization, protected data, or irreducible high-impact choices; 8 focused prompt tests passed
 
 ## Windows release hashes
 
 ```text
-E2ADA6AAC3012689E8112ACAD0BBE0FB9F32F1F48BD99362BADB5079131B84A3  ForgeOS_0.0.13_x64_en-US.msi
-42090FA64457C167EF033FFC07A867FA2E452F7B22AE70E3FD0C8100968FB9D1  ForgeOS_0.0.13_x64-setup.exe
-2481BE61066FF9939F049BFF017AE171902DC7B952EBCCC05EF1A9EB175C7C28  forgeos.exe
-666C9C03107CEFFECF297D35BB95CD99B5B6A71EFC207C2573A29AEBF2F15558  code-sidecar.exe
+278C2DFCE89A3F916825A0485607A2FF62F3156CB089D43118763C9E9D237C79  ForgeOS_0.0.13_x64_en-US.msi
+FEBA131B654E8F687E0ED566326655B63BC47E87273403C55B9E96A43C4EA46E  ForgeOS_0.0.13_x64-setup.exe
+E9A5D0C3D1F651F828C64646F49B5651F3A9E889A855FEA772D9219024D65913  forgeos.exe
+484D219833488841F34051E27CFBA1E7F2D0808A18C4D8F3D9D59A06522BB673  code-sidecar.exe
 E4B150ED689A1D44A790AEFEEA3880D32BB7DC51D8256386A3691BA04648CF70  runtime/forgeos-control-plane.jar
 ```
 

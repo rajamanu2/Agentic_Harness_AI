@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+	AUTONOMOUS_ACT_INSTRUCTIONS,
 	buildForgeOSSystemPrompt,
 	MODE_TAG_INSTRUCTIONS,
 	PLAN_MODE_INSTRUCTIONS,
@@ -17,15 +18,27 @@ describe("buildForgeOSSystemPrompt mode instructions", () => {
 	it("explains the user_input mode attribute in act mode", () => {
 		const prompt = buildForgeOSSystemPrompt({ ...BASE_OPTIONS, mode: "act" });
 		expect(prompt).toContain(MODE_TAG_INSTRUCTIONS);
+		expect(prompt).toContain(AUTONOMOUS_ACT_INSTRUCTIONS);
 		expect(prompt).toContain('<user_input mode="...">');
 		expect(prompt).toContain("<mode_notice>");
 		expect(prompt).not.toContain(PLAN_MODE_INSTRUCTIONS);
+	});
+
+	it("requires autonomous implementation instead of clarification loops in act mode", () => {
+		const prompt = buildForgeOSSystemPrompt({ ...BASE_OPTIONS, mode: "act" });
+		expect(prompt).toContain("Do not stop after a plan");
+		expect(prompt).toContain("sensible professional defaults and continue");
+		expect(prompt).toContain("launch or expose the built result");
+		expect(prompt).not.toContain(
+			"ask for clarification instead of making assumptions",
+		);
 	});
 
 	it("appends the plan-mode contract only in plan mode", () => {
 		const prompt = buildForgeOSSystemPrompt({ ...BASE_OPTIONS, mode: "plan" });
 		expect(prompt).toContain(MODE_TAG_INSTRUCTIONS);
 		expect(prompt).toContain(PLAN_MODE_INSTRUCTIONS);
+		expect(prompt).not.toContain(AUTONOMOUS_ACT_INSTRUCTIONS);
 		// The mode-tag explanation precedes the plan contract, matching the
 		// order the CLI historically composed by hand.
 		expect(prompt.indexOf(MODE_TAG_INSTRUCTIONS)).toBeLessThan(
@@ -62,9 +75,15 @@ describe("buildForgeOSSystemPrompt mode instructions", () => {
 		expect(buildForgeOSSystemPrompt({ ...BASE_OPTIONS })).toContain(
 			MODE_TAG_INSTRUCTIONS,
 		);
-		expect(buildForgeOSSystemPrompt({ ...BASE_OPTIONS, mode: "yolo" })).toContain(
-			MODE_TAG_INSTRUCTIONS,
+		expect(buildForgeOSSystemPrompt({ ...BASE_OPTIONS })).toContain(
+			AUTONOMOUS_ACT_INSTRUCTIONS,
 		);
+		expect(
+			buildForgeOSSystemPrompt({ ...BASE_OPTIONS, mode: "yolo" }),
+		).toContain(MODE_TAG_INSTRUCTIONS);
+		expect(
+			buildForgeOSSystemPrompt({ ...BASE_OPTIONS, mode: "yolo" }),
+		).toContain(AUTONOMOUS_ACT_INSTRUCTIONS);
 	});
 
 	it("places caller rules before the mode instructions", () => {

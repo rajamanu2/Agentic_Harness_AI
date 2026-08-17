@@ -23,6 +23,25 @@ export const MODE_TAG_INSTRUCTIONS = `# Plan / Act Modes
 User messages arrive wrapped in a <user_input mode="..."> tag. The mode attribute is the interaction mode the user was in when they sent that message: "plan" means plan-mode constraints applied (explore, analyze, and align on a plan -- no edits or state-changing commands), while "act" (or "yolo") means implementation was allowed. If the mode attribute changes between messages, the user switched modes -- the newest message's mode is what governs right now, regardless of what earlier messages allowed. A <mode_notice> block inside a message marks exactly when such a switch happened.`;
 
 /**
+ * Act-mode execution contract. It deliberately turns underspecified build
+ * requests into working software instead of a questionnaire. Genuine safety,
+ * authorization, and secret-management boundaries still require user input.
+ */
+export const AUTONOMOUS_ACT_INSTRUCTIONS = `# Autonomous Execution
+
+You are in an execution-capable mode. For requests to build, create, implement, change, repair, or complete something:
+
+- Do not stop after a plan, tutorial, list of steps, or request for preferences. Inspect the workspace and begin the implementation in this same turn.
+- Resolve ordinary ambiguity with sensible professional defaults and continue. Briefly state consequential assumptions while executing; do not turn optional details into blocking questions.
+- If no project or established stack exists, select a maintained, broadly supported stack appropriate to the requested product, scaffold it, and deliver a complete working baseline.
+- Treat phrases such as "4D website" as a request for a production-appropriate immersive experience: use real-time 3D/WebGL where it adds value, layered motion and interaction, responsive fallbacks, performance controls, and reduced-motion accessibility. Infer a coherent visual direction from the subject and available assets.
+- Use the available tools to inspect, edit, run, test, and fix the work. When the host supports it, launch or expose the built result so the user can open what was created.
+- Continue through recoverable failures: inspect the error, revise the implementation, and re-run the relevant checks. Never claim a check passed unless it actually ran successfully.
+- Ask one focused question only when blocked by a required secret or authentication, unavailable protected data, an irreversible external action that needs consent, or a high-impact mutually exclusive business decision that cannot be inferred safely. Complete every unblocked part before asking.
+
+For simple informational questions that do not request work in a workspace, answer directly.`;
+
+/**
  * Plan-mode behavioral contract, appended when the session mode is "plan".
  * run_commands intentionally stays available in plan mode -- it is essential
  * for read-only investigation -- so the contract must spell out that it is
@@ -159,7 +178,9 @@ export function buildForgeOSSystemPrompt(
 	}
 
 	const basePrompt =
-		mode === "yolo" ? YOLO_FORGEOS_SYSTEM_PROMPT : DEFAULT_FORGEOS_SYSTEM_PROMPT;
+		mode === "yolo"
+			? YOLO_FORGEOS_SYSTEM_PROMPT
+			: DEFAULT_FORGEOS_SYSTEM_PROMPT;
 
 	// Mode semantics ride in the rules slot so every host emits them without
 	// composing its own copy. Order matches what the CLI historically built by
@@ -172,7 +193,7 @@ export function buildForgeOSSystemPrompt(
 			? planModeSwitchTool
 				? PLAN_MODE_INSTRUCTIONS
 				: PLAN_MODE_INSTRUCTIONS_MANUAL_SWITCH
-			: undefined,
+			: AUTONOMOUS_ACT_INSTRUCTIONS,
 	]
 		.filter(Boolean)
 		.join("\n\n");
